@@ -1,0 +1,102 @@
+﻿@model IEnumerable<CPSeed.Models.Plugin>
+@{
+    ViewBag.Title = "Plugin";
+}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-7">
+            <h1>
+                @ViewBag.Title
+            </h1>
+        </div>
+        <div class="col-sm-5">
+            <div class="form-group">
+                <div class="pull-right">
+                    <a href="@Href("~/Admin/Plugin/Details/")" class="btn btn-primary btn-sm btn-white">
+                        <i class="ace-icon fa fa-plus bigger-120"></i> Tạo mới
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<table class="table table-bordered table-hover" id="dynamic-table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.OrderNo)</th>
+            <th>@Html.DisplayNameFor(model => model.Name)</th>
+            <th>Enabled</th>
+            <th>@Html.DisplayNameFor(model => model.Postion)</th>
+            <th>@Html.DisplayNameFor(model => model.AddedDate)</th>
+            <th>@Html.DisplayNameFor(model => model.UserId)</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model.OrderByDescending(x => x.OrderNo).ToList()) {
+            <tr>
+                <td>@item.OrderNo</td>
+                <td>@item.Name</td>
+                <td>@Html.DisplayFor(modelItem => item.Show)</td>
+                <td>
+                    @if (item.Postion == 1) {
+                        <span>@("Sau thẻ <Head>")</span>
+                    } else if (item.Postion == 2) {
+                        <span>@("Cuối thẻ <Head>")</span>
+                    } else if (item.Postion == 3) {
+                        <span>@("Sau thẻ <Body>")</span>
+                    } else if (item.Postion == 4) {
+                        <span>@("Giữa thẻ <Body>")</span>
+                    } else if (item.Postion == 5) {
+                        <span>@("Cuối thẻ <Body>")</span>
+                    }
+                </td>
+                <td>@item.AddedDate.ToString("dd/MM/yyyy H:mm:ss")</td>
+                <td>@(item.User?.UserName)</td>
+                <td>
+                    <form asp-action="delete" id="form-delete-@item.Id">
+                        <input hidden="hidden" name="Id" value="@item.Id" />
+                    </form>
+                    <a href="@Href("~/Admin/Plugin/Details/"+item.Id)" class="btn btn-xs btn-success">
+                        <i class="ace-icon fa fa-pencil bigger-120"></i>
+                    </a>
+                    <button class="btn btn-xs btn-danger" onclick="SetDeletedItemId('@item.Id')">
+                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+@section styles{
+
+}
+@section scripts{
+    <script src="~/Areas/Admin/Assets/js/jquery.dataTables.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/jquery.dataTables.bootstrap.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/dataTables.buttons.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.flash.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.html5.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.print.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.colVis.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/dataTables.select.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var myTable =
+                $('#dynamic-table')
+                    //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+                    .DataTable({
+                        bAutoWidth: false,
+
+                        "aaSorting": []
+                    });
+        })
+    </script>
+}

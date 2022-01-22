@@ -1,0 +1,121 @@
+﻿@model CPSeed.Models.ProductCategory
+@{
+    ViewBag.Title = Model.Name; //Có vấn đề nhỏ ở đây nếu chạy riêng để test, name bị return về null, coi ở trang chủ thì bình thường
+    var productCategories = (List<CPSeed.Models.ProductCategory>)ViewBag.ProductCategories;
+    var productTags = (List<CPSeed.Models.ProductTag>)ViewBag.Tags;
+    var productViewers = (List<CPSeed.Models.ProductViewer>)ViewBag.ProductViewers;
+}
+<section class="section-content bg padding-y-sm">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-22-24">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <div class="form-inline">
+                                    <label class="mr-2">Chọn mức giá:</label>
+                                    <a href="javascript:void(0)">Dưới 3 triệu</a><span class="px-2"></span>
+                                    <a href="javascript:void(0)">Từ 3 - 10 triệu</a><span class="px-2"></span>
+                                    <a href="javascript:void(0)">Trên 10 triệu</a><span class="px-2"></span>
+                                    <input class="form-control form-control-sm" placeholder="Từ" type="number">
+                                    <span class="px-2"> - </span>
+                                    <input class="form-control form-control-sm" placeholder="Đến" type="number">
+                                    <button type="submit" class="btn btn-sm ml-2">Chọn</button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-2-24">
+                        <ul class="list-inline">
+                            <li class="list-inline-item dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sắp xếp</a>
+                                <div class="dropdown-menu p-3" style="max-width:500px;">
+                                    <label class="form-check">
+                                        <label href="#">
+                                            <input type="checkbox" class="form-check-input"> Nổi bật nhất
+                                        </label>
+                                    </label>
+                                    <label class="form-check">
+                                        <a href="#">
+                                            <input type="checkbox" class="form-check-input"> Giá cao đến thấp
+                                        </a>
+                                    </label>
+                                    <label class="form-check">
+                                        <a href="#">
+                                            <input type="checkbox" class="form-check-input"> Giá thấp đến cao
+                                        </a>
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*<div class="padding-y-sm">
+                <span>@Model.Products.Count().ToString("N0") sản phẩm</span>
+            </div>*@
+        <div class="row">
+            <div class="col-md-3 col-sm-12 padding-y-sm">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="text-uppercase">DANH MỤC</h5>
+                        <ul class="menu-category">
+                            @foreach (var item in productCategories.Where(x => !x.ParentId.HasValue)) {
+                                if (item.ProductCategories.Count() == 0) {
+                                    <li> <a href="~/Product/Category/@item.Id" class="text-dark">@item.Name</a></li>
+                                } else {
+                                    <li class="has-submenu">
+                                        <a href="~/Product/Category/@item.Id" class="text-dark">@item.Name<i class="icon-arrow-right pull-right"></i></a>
+                                        <ul class="submenu">
+                                            @foreach (var itemChild in item.ProductCategories) {
+                                                <li> <a href="~/Product/Category/@itemChild.Id" class="text-dark">@itemChild.Name</a></li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+                @*<div class="card mt-3">
+                    <div class="card-header">
+                        Thẻ
+                    </div>
+                    <div class="card-body small">
+                        @foreach (var item in productTags) {
+                            <a href="~/Tag/@item.Id" class="btn btn-sm btn-success mt-1">@item.Name</a>
+                        }
+                    </div>
+                </div>*@
+            </div>
+            <div class="col-md-9 col-sm-12">
+                <div class="row-sm padding-y-sm">
+                    @foreach (var item in Model.Products) {
+                        <div class="col-md-3 col-sm-4 col-xs-12">
+                            <figure class="card card-product">
+                                <div class="img-wrap">
+                                    <img src="@item.Thumnail">
+                                    @*<a class="btn-overlay" href="javascript:void(0)" onclick="QuickView('@item.Id')"><i class="fa fa-search-plus"></i> Xem nhanh</a>*@
+                                </div>
+                                <figcaption class="info-wrap">
+                                    <h6 class="title text-truncate"><a href="~/Product/Details/@item.Id" class="text-dark">@item.Name</a></h6>
+                                    <div class="action-wrap">
+                                        <a href="~/Cart/AddToCart/@item.Id" class="btn btn-outline-success btn-sm float-right">
+                                            <i class="fa fa-cart-plus"></i> Mua
+                                        </a>
+                                        <div class="price-wrap h6 text-secondary">
+                                            <span class="price-new">@item.Price.ToString("N0") đ</span>
+                                        </div>
+                                    </div>
+                                </figcaption>
+                            </figure>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

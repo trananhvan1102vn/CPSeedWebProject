@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "Đặt hàng thành công";
+    string success = ViewBag.Success;
+    var configSetting = (CPSeed.Models.ConfigSetting)ViewBag.ConfigSetting;
+}
+
+<div class="section-content padding-y-sm">
+    <div class="container">
+        <article class="padding-y-sm">
+            <figure class="itemside">
+                <div class="aside align-self-center">
+                    <span class="icon-wrap icon-md round bg-success">
+                        <i class="fa fa-check white"></i>
+                    </span>
+                </div>
+                <figcaption class="text-wrap">
+                    <h5 class="title">Chào bạn,</h5>
+                    <p class="text-muted">
+                        Đơn hàng của bạn đã hoàn tất. Chúng tôi đã nhận được đơn hàng và sẽ liên hệ lại trong thời gian sớm nhất.<br />
+                        Bạn vui lòng kiểm tra điện thoại để xác thực lại thông tin đặt hàng.<br />
+                        Trạng thái đơn hàng sẽ được chúng tôi cập nhật liên tục cho đến khi hoàn tất việc giao hàng.<br />
+                        Bạn cần hỗ trợ ? Liên hệ với chúng tôi <a href="tel:@configSetting.PhoneNumber">@configSetting.PhoneNumber</a><br />
+                        Xin cảm ơn quý khách đã đặt hàng tại @configSetting.AppName !<br />
+                    </p>
+                </figcaption>
+            </figure>
+        </article>
+        <header class="section-heading heading-line" />
+    </div>
+</div>

@@ -1,0 +1,116 @@
+﻿
+<div class="modal fade" tabindex="-1" role="dialog" id="product_view">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body p-0">
+
+                <div class="card">
+                    <div class="row no-gutters">
+                        <aside class="col-sm-5 border-right pt-5">
+                            <article class="gallery-wrap">
+                                <div class="img-big-wrap">
+                                    <div>
+                                        <a href="javascript:void(0)">
+                                            <img id="q-v-thumnail" src="#" class="img img-responsive img-fluid">
+                                        </a>
+                                    </div>
+                                </div>
+                            </article>
+                        </aside>
+                        <aside class="col-sm-7">
+                            <article class="p-5">
+                                <h3 class="title mb-3" id="q-v-name">Original Version of Some product name</h3>
+
+                                <div class="mb-3">
+                                    <var class="price h3 text-warning">
+                                        <span class="currency"></span>
+                                        <span class="num" id="q-v-price">1299</span>
+                                    </var>
+                                </div>
+                                <dl>
+                                    <dt>Mô tả ngắn</dt>
+                                    <dd>
+                                        <p id="q-v-desc">
+                                            Here goes description consectetur adipisicing elit, sed do eiusmod
+                                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                            quis nostrud exercitation ullamco
+                                        </p>
+                                    </dd>
+                                </dl>
+                                <dl class="row">
+                                    <dt class="col-sm-3">Mã sản phẩm</dt>
+                                    <dd class="col-sm-9" id="q-v-sku">12345611</dd>
+
+                                    <dt class="col-sm-3">Màu sắc</dt>
+                                    <dd class="col-sm-9" id="q-v-color">Black and white </dd>
+
+                                    <dt class="col-sm-3">Giao hàng</dt>
+                                    <dd class="col-sm-9" id="q-v-delivery">Russia, USA, and Europe </dd>
+                                </dl>
+                                <div class="rating-wrap">
+
+                                    <ul class="rating-stars">
+                                        <li style="width:80%" class="stars-active">
+                                            <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                        </li>
+                                    </ul>
+                                    <div class="label-rating">132 đánh giá</div>
+                                    <div class="label-rating">154 người đặt hàng </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <dl class="dlist-inline">
+                                            <dt>Số lượng: </dt>
+                                            <dd id="q-v-qty">
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <dl class="dlist-inline">
+                                            <dt>Kích cỡ: </dt>
+                                            <dd id="q-v-size">
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                                <hr>
+                                <a href="#" class="btn  btn-primary"><i class="fa fa-envelope"></i> Liên hệ hỗ trợ</a>
+                                <a id="q-v-btn-order" href="#" class="btn  btn-success"><i class="fa fa-cart-plus"></i> Đặt hàng ngay</a>
+                            </article>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function QuickView(id) {
+        $.get('/Product/GetProductJson', { id: id }, function (res) {
+            $('#q-v-thumnail').prop('src', res.thumnail);
+            $('#q-v-btn-order').prop('href', '/Cart/AddToCart/' + id);
+            $('#q-v-name').html(res.name);
+            $('#q-v-sku').html(res.sku);
+            $('#q-v-desc').html(res.desc);
+
+            $('#q-v-price').html(formatNumber(res.price, '.', ',') + ' đ');
+
+            $('#q-v-color').html(res.color);
+            $('#q-v-delivery').html(res.delivery);
+            $('#q-v-qty').html(res.qty);
+            $('#q-v-size').html(res.size);
+            $('#product_view').modal('show');
+        });
+    }
+</script>

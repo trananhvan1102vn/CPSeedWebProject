@@ -1,0 +1,630 @@
+﻿@model CPSeed.Models.Product
+
+@{
+    ViewBag.Title = "Sản phẩm";
+}
+
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+
+    <div class="page-header">
+        <div class="row">
+            <div class="col-sm-7">
+                <h1>
+                    Tạo sản phẩm mới
+                    <small>
+                        <a href="@Href("~/Admin/Product")" class=""><i class="fa fa-reply"></i> Trở về danh sách</a>
+                    </small>
+                </h1>
+            </div>
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <div class="pull-right">
+                        <button type="submit" name="btnSubmit" value="Exit" class="btn btn-primary btn-sm"><i class="fa fa-save"></i> Lưu</button>
+                        <button type="submit" name="btnSubmit" value="Continue" class="btn btn-success btn-sm"><i class="fa fa-save"></i> Lưu và tiếp tục chỉnh sửa</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="tabbable">
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="active">
+                    <a data-toggle="tab" href="#product-info">
+                        <i class="green ace-icon fa fa-home bigger-120"></i>
+                        Thông tin sản phẩm
+                    </a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#product-photo">
+                        Hình ảnh
+                    </a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#product-seo">
+                        SEO
+                    </a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#product-tag">
+                        Gắn thẻ
+                    </a>
+                </li>
+                @if (Model.Id != new Guid()) {
+                    <li>
+                        <a data-toggle="tab" href="#product-purchased">
+                            Đơn hàng
+                        </a>
+                    </li>
+                }
+
+            </ul>
+
+            <div class="tab-content">
+                <div id="product-info" class="tab-pane fade in active">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Thông tin chung
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.SKU, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class=" col-md-9">
+                                            @Html.EditorFor(model => model.SKU, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.SKU, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class=" col-md-9">
+                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Thumnail, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class=" col-md-9">
+                                            <div class="input-group">
+                                                @Html.EditorFor(model => model.Thumnail, new { htmlAttributes = new { @class = "form-control" } })
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-sm btn-default" type="button" onclick="selectFileWithCKFinder('Thumnail');">
+                                                        <i class="ace-icon fa fa-search bigger-110"></i>
+                                                        Chọn ảnh
+                                                    </button>
+                                                </span>
+                                            </div>
+                                            @Html.ValidationMessageFor(model => model.Thumnail, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class=" col-md-9">
+                                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = 4 })
+                                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.DetailOverview, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class=" col-md-9">
+                                            @Html.TextAreaFor(model => model.DetailOverview, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.DetailOverview, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Thuộc tính
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class=" col-md-9">
+                                            @Html.TextBoxFor(model => model.Price, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class=" col-md-9">
+                                            @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Size, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class=" col-md-9">
+                                            @Html.TextBoxFor(model => model.Size, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Size, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class=" col-md-9">
+                                            @Html.TextBoxFor(model => model.Color, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Manufacturer, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class=" col-md-9">
+                                            @Html.TextAreaFor(model => model.Manufacturer, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Manufacturer, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Warranty, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class=" col-md-9">
+                                            @Html.TextBoxFor(model => model.Warranty, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Warranty, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.OrderNo, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class=" col-md-9">
+                                            @Html.EditorFor(model => model.OrderNo, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.OrderNo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Vận chuyển
+                                </div>
+                                <div class="panel-body">
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Delivery, htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class=" col-md-9">
+                                            @Html.TextAreaFor(model => model.Delivery, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Delivery, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Liên kết
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        @Html.Label("Danh mục", htmlAttributes: new { @class = "control-label col-md-3" })
+                                        <div class=" col-md-9">
+                                            @{
+                                                var selecteds = Model.ProductCategories.Select(x => x.Id.ToString()).ToList();
+                                            }
+                                            <select name="ProductCategories" id="ProductCategories" multiple class="form-control">
+                                                @foreach (var item in (SelectList)ViewBag.ProductCategories) {
+                                                    <option value="@item.Value" @(selecteds.Contains(item.Value) ? "selected" : "")>@item.Text</option>
+                                                }
+                                            </select>
+                                            @*@Html.DropDownList("ProductCategories", (SelectList)ViewBag.ProductCategories, new { @class = "form-control select2", multiple = true })*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="product-photo" class="tab-pane fade">
+                    @if (Model.Id == new Guid()) {
+                        <div class="well well-sm">
+                            Bạn cần lưu sản phẩm trước khi có thể tải lên hình ảnh cho trang sản phẩm này.
+                        </div>
+                    } else {
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <button type="button" class="btn btn-primary btn-sm" onclick="AddNewProductPhoto()">
+                                    <i class="fa fa-plus"></i> Thêm ảnh sản phẩm
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <table class="table table-bordered table-hover" id="dynamic-table">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                STT
+                                            </th>
+                                            <th>
+                                                Hình ảnh
+                                            </th>
+                                            <th>
+                                                Alt
+                                            </th>
+                                            <th>
+                                                Tiêu đề
+                                            </th>
+
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach (var item in Model.ProductImages.OrderBy(x => x.OrderNo)) {
+                                            <tr>
+                                                <td width="80" class="center">
+                                                    @item.OrderNo
+                                                </td>
+                                                <td>
+                                                    <img src="@Href(item.Link)" width="70" />
+                                                </td>
+                                                <td>
+                                                    @item.Alt
+                                                </td>
+                                                <td>
+                                                    @item.FileName
+                                                </td>
+
+                                                <td class="center" width="100">
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-xs btn-danger" onclick="SetDeletedItemIdWithType('@item.Id','ProductPhoto')">
+                                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div id="product-seo" class="tab-pane fade">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.MetaKeywords, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.MetaKeywords, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MetaKeywords, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.MetaDescription, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.TextAreaFor(model => model.MetaDescription, new { @class = "form-control", rows = 5 })
+                            @Html.ValidationMessageFor(model => model.MetaDescription, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.MetaTitle, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.MetaTitle, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MetaTitle, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SeName, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.SeName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.SeName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div id="product-tag" class="tab-pane fade">
+                    @if (Model.Id == new Guid()) {
+                        <div class="well well-sm">
+                            Bạn cần lưu sản phẩm trước khi có thể gắn thẻ cho trang sản phẩm này.
+                        </div>
+                    } else {
+                        var tags = (List<CPSeed.Models.ProductTag>)ViewBag.Tags;
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-top" for="duallist">Kéo thả thẻ vào ô bên phải </label>
+
+                            <div class="col-sm-8">
+                                <select multiple="multiple" size="10" name="duallistbox_demo1[]" id="duallist" onchange="AddTagToProduct(this)">
+                                    @foreach (var item in tags) {
+                                        <option value="@item.Id" @(Model.ProductTags.Contains(item) ? "selected='selected'" : "")>@item.Name</option>
+                                    }
+                                </select>
+                                <div class="hr hr-16 hr-dotted"></div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div id="product-purchased" class="tab-pane fade">
+                    @if (Model.Id == new Guid()) {
+                        <div class="well well-sm">
+                            Hiện chưa có đơn đặt hàng nào cho sản phẩn này.
+                        </div>
+                    } else {
+                        <table class="table table-bordered table-hover" id="dynamic-table">
+                            <thead>
+                                <tr>
+                                    <th>Số đơn hàng</th>
+                                    <th>Ngày tạo</th>
+                                    <th>Số lượng</th>
+                                    <th>Đơn giá</th>
+                                    <th>Tổng thanh toán</th>
+                                    <th>Trạng thái</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var item in Model.CartItems) {
+                                    <tr>
+                                        <td>
+                                            @item.ProductionOrder.PONumber
+                                        </td>
+                                        <td>
+                                            @item.ProductionOrder.CreatedDate.ToString("dd/MM/yyyy")
+                                        </td>
+                                        <td>
+                                            @item.Quantity
+                                        </td>
+                                        <td>
+                                            @item.Price.ToString("N0")
+                                        </td>
+                                        <td>
+                                            @item.Total.ToString("N0")
+                                        </td>
+                                        <td>
+                                            @if (item.ProductionOrder.Status == "Pending") {
+                                                <span class="label label-warning label-white">@item.ProductionOrder.Status</span>
+                                            } else if (item.ProductionOrder.Status == "Processing") {
+                                                <span class="label label-info label-white">@item.ProductionOrder.Status</span>
+                                            } else if (item.ProductionOrder.Status == "Finished") {
+                                                <span class="label label-success label-white">@item.ProductionOrder.Status</span>
+                                            } else if (item.ProductionOrder.Status == "Rejected") {
+                                                <span class="label label-danger label-white">@item.ProductionOrder.Status</span>
+                                            }
+                                        </td>
+                                        <td class="center" width="100">
+                                            <div class="btn-group">
+                                                <a href="@Href("~/Admin/File/GenerateProductionOrder/"+item.ProductionOrder.Id)" class="btn btn-xs btn-danger btn-white" target="_blank">
+                                                    <i class="ace-icon fa fa-file-pdf-o bigger-120"></i>
+                                                </a>
+                                                <a href="@Href("~/Admin/Order/Details/"+item.ProductionOrder.Id)" class="btn btn-xs btn-success">
+                                                    <i class="ace-icon fa fa-search bigger-120"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    }
+                </div>
+
+                <div class="form-group" style="margin-right:0px">
+                    <div class="pull-right">
+                        <a href="@Href("~/Admin/Product")" class="btn btn-warning btn-sm"><i class="fa fa-reply"></i> Trở về danh sách</a>
+                        <button type="submit" name="btnSubmit" value="Exit" class="btn btn-primary btn-sm"><i class="fa fa-save"></i> Lưu</button>
+                        <button type="submit" name="btnSubmit" value="Continue" class="btn btn-success btn-sm"><i class="fa fa-save"></i> Lưu và tiếp tục chỉnh sửa</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="modal fade" id="modal-add-photo" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">Thêm ảnh sản phẩm</h4>
+            </div>
+            @using (Html.BeginForm("AddProductPhoto", HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString(), FormMethod.Post, new { @class = "" })) {
+
+                @Html.Hidden("productId", Model.Id)
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Hình ảnh</label>
+                            <div class=" col-md-9">
+                                <div class="input-group">
+                                    @Html.TextBox("productPhoto", "", new { @class = "form-control" })
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-sm btn-default" type="button" onclick="selectFileWithCKFinder('productPhoto');">
+                                            <i class="ace-icon fa fa-search bigger-110"></i>
+                                            Chọn ảnh
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Alt</label>
+                            <div class=" col-md-9">
+                                @Html.TextBox("productAlt", "", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Tiêu đề</label>
+                            <div class=" col-md-9">
+                                @Html.TextBox("productTitle", "", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">STT</label>
+                            <div class=" col-md-9">
+                                @Html.TextBox("productDisplayOrder", "", new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-yellow" data-dismiss="modal">
+                        <i class="ace-icon fa fa-reply bigger-110"></i> Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Submit
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section styles{
+    <link rel="stylesheet" href="~/Areas/Admin/Assets/css/colorbox.min.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/Assets/css/bootstrap-multiselect.min.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/Assets/css/select2.min.css" />
+    <link href="~/Areas/Admin/Assets/bootstrap-touchspin/jquery.bootstrap-touchspin.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Areas/Admin/Assets/css/bootstrap-duallistbox.min.css" />
+}
+@section scripts{
+    <script src="~/Areas/Admin/Assets/ckeditor/ckeditor.js"></script>
+    <script src="~/Areas/Admin/Assets/ckeditor/lang/vi.js"></script>
+    <script src="~/Areas/Admin/Assets/ckfinder/ckfinder.js"></script>
+    <script src="~/Areas/Admin/Assets/js/jquery.colorbox.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/bootstrap-multiselect.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/select2.min.js"></script>
+
+    <script src="~/Areas/Admin/Assets/js/jquery.dataTables.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/jquery.dataTables.bootstrap.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/dataTables.buttons.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.flash.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.html5.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.print.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.colVis.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/dataTables.select.min.js"></script>
+    <script src="~/Areas/Admin/Assets/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+    <script src="~/Areas/Admin/Assets/js/jquery.bootstrap-duallistbox.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("input[name='productDisplayOrder']").TouchSpin({
+                verticalbuttons: true,
+                verticalupclass: 'glyphicon glyphicon-plus',
+                verticaldownclass: 'glyphicon glyphicon-minus'
+            });
+            $("input[name='OrderNo']").TouchSpin({
+                verticalbuttons: true,
+                verticalupclass: 'glyphicon glyphicon-plus',
+                verticaldownclass: 'glyphicon glyphicon-minus'
+            });
+            var myTable =
+                $('#dynamic-table')
+                    //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+                    .DataTable({
+                        bAutoWidth: false,
+
+                        "aaSorting": []
+                    });
+            //var editor = CKEDITOR.replace('Description', {
+            //    height: 200
+            //});
+            var editor = CKEDITOR.replace('DetailOverview', {
+                height: 272
+            });
+            CKFinder.setupCKEditor(editor, '/Areas/Admin/Assets/ckfinder');
+
+            $('#ProductCategories').select2({ allowClear: true }).addClass('tag-input-style');
+
+            //var selectedValues = $("#SelectedProductCategories").val().split(',');
+            //console.log(selectedValues);
+            //$("#ProductCategories").select2('val', selectedValues);
+
+            var $overflow = '';
+            var colorbox_params = {
+                rel: 'colorbox',
+                reposition: true,
+                scalePhotos: true,
+                scrolling: false,
+                previous: '<i class="ace-icon fa fa-arrow-left"></i>',
+                next: '<i class="ace-icon fa fa-arrow-right"></i>',
+                close: '&times;',
+                current: '{current} of {total}',
+                maxWidth: '100%',
+                maxHeight: '100%',
+                onOpen: function () {
+                    $overflow = document.body.style.overflow;
+                    document.body.style.overflow = 'hidden';
+                },
+                onClosed: function () {
+                    document.body.style.overflow = $overflow;
+                },
+                onComplete: function () {
+                    $.colorbox.resize();
+                }
+            };
+
+            $('.ace-thumbnails [data-rel="colorbox"]').colorbox(colorbox_params);
+            $("#cboxLoadingGraphic").html("<i class='ace-icon fa fa-spinner orange fa-spin'></i>");//let's add a custom loading icon
+
+
+            $(document).one('ajaxloadstart.page', function (e) {
+                $('#colorbox, #cboxOverlay').remove();
+            });
+        });
+
+
+        function selectFileWithCKFinder(elementId) {
+            // You can use the "CKFinder" class to render CKFinder in a page:
+            var finder = new CKFinder();
+            finder.basePath = '/Files';	// The path for the installation of CKFinder (default = "/ckfinder/").
+
+            // This is a sample function which is called when a file is selected in CKFinder.
+            finder.selectActionFunction = function (fileUrl) {
+                document.getElementById(elementId).value = fileUrl;
+            }
+            finder.popup({
+                chooseFiles: true,
+                width: 800,
+                height: 600
+            });
+        }
+
+        function AddNewProductPhoto() {
+            $("#productPhoto").val('');
+            $("#productAlt").val('');
+            $("#productTitle").val('');
+            $("#productDisplayOrder").val('');
+            $("#modal-add-photo").modal('show');
+        }
+
+        jQuery(function ($) {
+            var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox({
+                filterTextClear: 'Hiện tất cả',
+                filterPlaceHolder: 'Bộ lọc',
+                moveSelectedLabel: 'Di chuyển đã chọn',
+                moveAllLabel: 'Di chuyển tất cả',
+                removeSelectedLabel: 'Bỏ đã chọn',
+                removeAllLabel: 'Xóa tất cả',
+                infoText: 'Hiện tất cả ({0})',
+                infoTextFiltered: '<span class="label label-purple label-lg">Đã lọc</span>',
+                infoTextEmpty: 'Danh sách trống',
+            });
+            var container1 = demo1.bootstrapDualListbox('getContainer');
+            container1.find('.btn').addClass('btn-white btn-info btn-bold');
+        });
+        function AddTagToProduct(sender) {
+            var id = $(sender).val();
+            var productId = $('#Id').val();
+            var ids = ''
+
+            if (id != null) {
+                ids = id.join(',')
+            }
+            $.post('/Admin/Product/AddTagToProduct', { productId: productId, ids: ids }, function (res) {
+                console.log(res);
+            });
+        }
+    </script>
+}

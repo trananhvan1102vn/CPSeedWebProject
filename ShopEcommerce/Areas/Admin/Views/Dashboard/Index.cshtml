@@ -1,0 +1,468 @@
+﻿@model CPSeed.Areas.Admin.Models.SummaryViewModel
+
+@{
+    ViewBag.Title = "Bảng điều khiển";
+}
+<div class="alert alert-block alert-success">
+    <button type="button" class="close" data-dismiss="alert">
+        <i class="ace-icon fa fa-times"></i>
+    </button>
+    <i class="ace-icon fa fa-check green"></i>
+    Không có thông báo
+</div>
+
+<div class="row">
+    <div class="space-6"></div>
+
+    <div class="col-sm-7">
+
+        <div class="infobox infobox-pink">
+            <div class="infobox-icon">
+                <i class="ace-icon fa fa-shopping-cart"></i>
+            </div>
+
+            <div class="infobox-data">
+                <span class="infobox-data-number">@Model.NewOrderCounter.ToString("N0")</span>
+                <div class="infobox-content">Đơn đặt hàng mới</div>
+            </div>
+            @*<div class="stat stat-important">4%</div>*@
+        </div>
+
+        <div class="infobox infobox-green">
+            <div class="infobox-icon">
+                <i class="ace-icon fa fa-comments"></i>
+            </div>
+
+            <div class="infobox-data">
+                <span class="infobox-data-number">@Model.ReviewCounter.ToString("N0")</span>
+                <div class="infobox-content">Đánh giá sản phẩm</div>
+            </div>
+
+            @*<div class="stat stat-success">8%</div>*@
+        </div>
+
+        <div class="infobox infobox-red">
+            <div class="infobox-icon">
+                <i class="ace-icon fa fa-undo"></i>
+            </div>
+
+            <div class="infobox-data">
+                <span class="infobox-data-number">@Model.ReviewCounter.ToString("N0")</span>
+                <div class="infobox-content">Yêu cầu trả hàng</div>
+            </div>
+
+            @*<div class="badge badge-success">
+                    +32%
+                    <i class="ace-icon fa fa-arrow-up"></i>
+                </div>*@
+        </div>
+
+        <div class="infobox infobox-red">
+            <div class="infobox-icon">
+                <i class="ace-icon fa fa-users"></i>
+            </div>
+
+            <div class="infobox-data">
+                <span class="infobox-data-number">@Model.CustomerCounter.ToString("N0")</span>
+                <div class="infobox-content">Khách hàng đã đăng ký</div>
+            </div>
+        </div>
+
+        <div class="infobox infobox-orange2">
+            <div class="infobox-icon">
+                <i class="ace-icon fa fa-product-hunt"></i>
+            </div>
+
+            <div class="infobox-data">
+                <span class="infobox-data-number">6,251</span>
+                <div class="infobox-content">Sản phẩn sắp hết hàng</div>
+            </div>
+        </div>
+
+        <div class="infobox infobox-blue2">
+            <div class="infobox-progress">
+                <div class="easy-pie-chart percentage" data-percent="42" data-size="46">
+                    @*<span class="percent">42</span>%*@
+                </div>
+            </div>
+
+            <div class="infobox-data">
+
+            </div>
+        </div>
+    </div>
+    <div class="vspace-12-sm"></div>
+    <div class="col-sm-5">
+        <div class="widget-box">
+            <div class="widget-header widget-header-flat widget-header-small">
+                <h5 class="widget-title">
+                    <i class="ace-icon fa fa-signal"></i>
+                    Mạng xã hội
+                </h5>
+
+                <div class="widget-toolbar no-border">
+
+                </div>
+            </div>
+
+            <div class="widget-body">
+                <div class="widget-main">
+                    <div class="clearfix">
+                        <div class="grid2">
+                            <span class="grey">
+                                <i class="ace-icon fa fa-facebook-square fa-2x blue"></i>
+                                &nbsp; Lượt thích
+                            </span>
+                            <h4 class="bigger pull-right">1,255</h4>
+                        </div>
+
+                        <div class="grid2">
+                            <span class="grey">
+                                <i class="ace-icon fa fa-youtube-square fa-2x red"></i>
+                                &nbsp; Lượt đăng ký
+                            </span>
+                            <h4 class="bigger pull-right">1,050</h4>
+                        </div>
+                    </div>
+                </div><!-- /.widget-main -->
+            </div><!-- /.widget-body -->
+        </div>
+    </div>
+</div>
+<div class="hr hr32 hr-dotted"></div>
+<div class="row">
+    <div class="col-sm-7">
+        <div class="widget-box transparent">
+            <div class="widget-header widget-header-flat">
+                <h4 class="widget-title lighter">
+                    <i class="ace-icon fa fa-shopping-bag orange"></i>
+                    Tổng số đơn hàng
+                </h4>
+
+                <div class="widget-toolbar">
+                    <a href="#" data-action="collapse">
+                        <i class="ace-icon fa fa-chevron-up"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <table class="table table-bordered table-striped">
+                        <thead class="thin-border-bottom">
+                            <tr>
+                                <th>
+                                    <i class="ace-icon fa fa-caret-right blue"></i>Tình trạng đặt hàng
+                                </th>
+
+                                <th>
+                                    <i class="ace-icon fa fa-caret-right blue"></i>Hôm nay
+                                </th>
+
+                                <th>
+                                    <i class="ace-icon fa fa-caret-right blue"></i>Tuần này
+                                </th>
+
+
+                                <th>
+                                    <i class="ace-icon fa fa-caret-right blue"></i>Tháng này
+                                </th>
+
+                                <th>
+                                    <i class="ace-icon fa fa-caret-right blue"></i>Năm này
+                                </th>
+
+                                <th>
+                                    <i class="ace-icon fa fa-caret-right blue"></i>Tất cả
+                                </th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td class="center">Đang chờ xử lý</td>
+                                <td><b class="orange">@Model.OrderPendingToday.ToString("N0")</b></td>
+                                <td><b class="orange">@Model.OrderPendingThisWeek.ToString("N0")</b></td>
+                                <td><b class="orange">@Model.OrderPendingThisMonth.ToString("N0")</b></td>
+                                <td><b class="orange">@Model.OrderPendingThisYear.ToString("N0")</b></td>
+                                <td><b class="orange">@Model.OrderPendingTotal.ToString("N0")</b></td>
+                            </tr>
+                            <tr>
+                                <td class="center">Đang xử lý</td>
+                                <td><b class="blue">@Model.OrderProcessingToday.ToString("N0")</b></td>
+                                <td><b class="blue">@Model.OrderProcessingThisWeek.ToString("N0")</b></td>
+                                <td><b class="blue">@Model.OrderProcessingThisMonth.ToString("N0")</b></td>
+                                <td><b class="blue">@Model.OrderProcessingThisYear.ToString("N0")</b></td>
+                                <td><b class="blue">@Model.OrderProcessingTotal.ToString("N0")</b></td>
+                            </tr>
+                            <tr>
+                                <td class="center">Hoàn tất</td>
+
+                                <td><b class="green">@Model.OrderCompletedToday.ToString("N0")</b></td>
+                                <td><b class="green">@Model.OrderCompletedThisWeek.ToString("N0")</b></td>
+                                <td><b class="green">@Model.OrderCompletedThisMonth.ToString("N0")</b></td>
+                                <td><b class="green">@Model.OrderCompletedThisYear.ToString("N0")</b></td>
+                                <td><b class="green">@Model.OrderCompletedTotal.ToString("N0")</b></td>
+                            </tr>
+                            <tr>
+                                <td class="center">Đã hủy</td>
+
+                                <td><b class="red">@Model.OrderCancelledToday.ToString("N0")</b></td>
+                                <td><b class="red">@Model.OrderCancelledThisWeek.ToString("N0")</b></td>
+                                <td><b class="red">@Model.OrderCancelledThisMonth.ToString("N0")</b></td>
+                                <td><b class="red">@Model.OrderCancelledThisYear.ToString("N0")</b></td>
+                                <td><b class="red">@Model.OrderCancelledTotal.ToString("N0")</b></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-5">
+        <div class="widget-box transparent">
+            <div class="widget-header widget-header-flat">
+                <h4 class="widget-title lighter">
+                    <i class="ace-icon fa fa-cart-arrow-down orange"></i>
+                    Đơn hàng chưa hoàn thành
+                </h4>
+
+                <div class="widget-toolbar">
+                    <a href="#" data-action="collapse">
+                        <i class="ace-icon fa fa-chevron-up"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <table class="table table-bordered table-striped">
+                        <thead class="thin-border-bottom">
+                            <tr>
+                                <th>
+                                    <i class="ace-icon fa fa-caret-right blue"></i>Mặt hàng
+                                </th>
+
+                                <th>
+                                    <i class="ace-icon fa fa-caret-right blue"></i>Tổng giá
+                                </th>
+
+                                <th class="center">
+                                    <i class="ace-icon fa fa-caret-right blue"></i>Count
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model.OrderUnFinisheds) {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td><b class="green">@item.TotalAmount.ToString("N0")</b></td>
+                                    <td class="center">
+                                        <a href="~/Admin/Order/Details/@item.ProductId" target="_blank" class="btn btn-default btn-xs btn-white">
+                                            <i class="fa fa-search"></i> Xem
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="hr hr32 hr-dotted"></div>
+<div class="row">
+    <div class="col-sm-8">
+        <div class="widget-box transparent" id="recent-box">
+            <div class="widget-header">
+                <h4 class="widget-title lighter smaller">
+                    <i class="ace-icon fa fa-shopping-cart orange"></i> BÁN HÀNG
+                </h4>
+
+                <div class="widget-toolbar no-border">
+                    <ul class="nav nav-tabs" id="myTab">
+                        <li class="active">
+                            <a data-toggle="tab" href="#latest-orders-tab">Đơn hàng mới nhất</a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#bestsellers-by-quantity-tab">Bán chạy nhất theo số lượng</a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#bestsellers-by-amount-tab">Bán chạy nhất theo đơn giá</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="widget-body">
+                <div class="widget-main padding-4">
+                    <div class="tab-content padding-8">
+                        <div id="latest-orders-tab" class="tab-pane active">
+                            <table class="table table-bordered table-hover dynamic-table">
+                                <thead>
+                                    <tr>
+                                        <th>Mã đơn hàng</th>
+                                        <th>Tình trạng đặt hàng</th>
+                                        <th>Khách hàng</th>
+                                        <th>Ngày đặt hàng</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var item in Model.OrderNewlests) {
+                                        <tr>
+                                            <td>@item.PONumber</td>
+                                            <td>
+                                                @if (item.Status == "Pending") {
+                                                    <span class="label label-warning label-white">@item.Status</span>
+                                                } else if (item.Status == "Processing") {
+                                                    <span class="label label-info label-white">@item.Status</span>
+                                                } else if (item.Status == "Finished") {
+                                                    <span class="label label-success label-white">@item.Status</span>
+                                                } else if (item.Status == "Rejected") {
+                                                    <span class="label label-danger label-white">@item.Status</span>
+                                                }
+                                            </td>
+                                            <td>@item.CustomerName</td>
+                                            <td>@item.OrderDate</td>
+                                            <td class="center">
+                                                <a href="~/Admin/Order/Details/@item.OrderId" target="_blank" class="btn btn-default btn-xs btn-white">
+                                                    <i class="fa fa-search"></i> Xem
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                        <div id="bestsellers-by-quantity-tab" class="tab-pane">
+                            <table class="table table-bordered table-hover dynamic-table">
+                                <thead>
+                                    <tr>
+                                        <th>Mặt hàng</th>
+                                        <th>Số lượng</th>
+                                        <th>Tổng cộng</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var item in Model.BestsellerByQuantities) {
+                                        <tr>
+                                            <td>@item.Name</td>
+                                            <td><b class="green">@item.TotalQuantity.ToString("N0")</b></td>
+                                            <td><b class="green">@item.TotalAmount.ToString("N0")</b></td>
+                                            <td class="center">
+                                                <a href="~/Admin/Product/Details/@item.ProductId" target="_blank" class="btn btn-default btn-xs btn-white">
+                                                    <i class="fa fa-search"></i> Xem
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                        <div id="bestsellers-by-amount-tab" class="tab-pane">
+                            <table class="table table-bordered table-hover dynamic-table">
+                                <thead>
+                                    <tr>
+                                        <th>Mặt hàng</th>
+                                        <th>Số lượng</th>
+                                        <th>Tổng cộng</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var item in Model.BestsellerByAmounts) {
+                                        <tr>
+                                            <td>@item.Name</td>
+                                            <td><b class="green">@item.TotalQuantity.ToString("N0")</b></td>
+                                            <td><b class="green">@item.TotalAmount.ToString("N0")</b></td>
+                                            <td class="center">
+                                                <a href="~/Admin/Product/Details/@item.ProductId" target="_blank" class="btn btn-default btn-xs btn-white">
+                                                    <i class="fa fa-search"></i> Xem
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="widget-box">
+            <div class="widget-header">
+                <h4 class="widget-title lighter smaller">
+                    <i class="ace-icon fa fa-tags blue"></i>
+                    Từ khóa tìm kiếm phổ biến
+                </h4>
+            </div>
+
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <div class="dialogs">
+                        <table class="table table-bordered table-hover dynamic-table">
+                            <thead>
+                                <tr>
+                                    <th width="75%">Từ khóa</th>
+                                    <th>Số lượng</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @for (int i = 0; i < 5; i++) {
+                                    <tr>
+                                        <td>I dunno why i edit this</td>
+                                        <td>10</td>
+                                    </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section styles{
+
+}
+@section scripts{
+    <script src="~/Areas/Admin/Assets/js/jquery.dataTables.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/jquery.dataTables.bootstrap.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/dataTables.buttons.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.flash.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.html5.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.print.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.colVis.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/dataTables.select.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var myTable =
+                $('.dynamic-table')
+                    //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+                    .DataTable({
+                        bAutoWidth: false,
+                        pageLength: 5,
+                        "aaSorting": []
+                    });
+        })
+    </script>
+}

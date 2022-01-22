@@ -1,0 +1,173 @@
+﻿@model CPSeed.Models.ConfigSetting
+@{
+    ViewBag.Title = "Thông tin hệ thống";
+}
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <div class="page-header">
+        <div class="row">
+            <div class="col-sm-7">
+                <h1>
+                    @ViewBag.Title
+                </h1>
+            </div>
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <div class="pull-right">
+                        <button type="submit" name="btnSubmit" value="Exit" class="btn btn-success btn-sm"><i class="fa fa-save"></i> Lưu thay đổi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AppName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
+                @Html.EditorFor(model => model.AppName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AppName, "", new { @class = "text-danger" })
+            </div>
+
+            @Html.LabelFor(model => model.AppNameShort, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.AppNameShort, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AppNameShort, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.AppLogo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="input-group">
+                    @Html.EditorFor(model => model.AppLogo, new { htmlAttributes = new { @class = "form-control" } })
+                    <span class="input-group-btn">
+                        <button class="btn btn-sm btn-success" type="button" onclick="selectFileWithCKFinder('AppLogo');">
+                            <i class="ace-icon fa fa-search bigger-110"></i>
+                            Chọn ảnh
+                        </button>
+                    </span>
+                </div>
+                @Html.ValidationMessageFor(model => model.AppLogo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+            </div>
+            @Html.LabelFor(model => model.MobilePhone, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.MobilePhone, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MobilePhone, "", new { @class = "text-danger" })
+            </div>
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Facebook, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Facebook, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Facebook, "", new { @class = "text-danger" })
+            </div>
+            @Html.LabelFor(model => model.Zalo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Zalo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Zalo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+
+            @Html.LabelFor(model => model.Youtube, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Youtube, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Youtube, "", new { @class = "text-danger" })
+            </div>
+            @Html.LabelFor(model => model.Instagram, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Instagram, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Instagram, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Policy, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Policy, new { @class = "form-control", rows = 5 })
+                @Html.ValidationMessageFor(model => model.Policy, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Service, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Service, new { @class = "form-control", rows = 5 })
+                @Html.ValidationMessageFor(model => model.Service, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" name="btnSubmit" value="Exit" class="btn btn-success btn-sm"><i class="fa fa-save"></i> Lưu thay đổi</button>
+
+            </div>
+        </div>
+    </div>
+}
+
+
+@section styles{
+    <link href="~/Areas/Admin/Assets/bootstrap-touchspin/jquery.bootstrap-touchspin.css" rel="stylesheet" />
+}
+@section scripts{
+    <script src="~/Areas/Admin/Assets/ckeditor/ckeditor.js"></script>
+    <script src="~/Areas/Admin/Assets/ckeditor/lang/vi.js"></script>
+    <script src="~/Areas/Admin/Assets/ckfinder/ckfinder.js"></script>
+    <script src="~/Areas/Admin/Assets/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+
+    <script>
+        $(document).ready(function () {
+        
+            //var editor = CKEDITOR.replace('Content', {
+            //    height: 400
+            //});
+            CKFinder.setupCKEditor(editor, '/Areas/Admin/Assets/ckfinder');
+        });
+        function selectFileWithCKFinder(elementId) {
+            // You can use the "CKFinder" class to render CKFinder in a page:
+            var finder = new CKFinder();
+            finder.basePath = '/Files';	// The path for the installation of CKFinder (default = "/ckfinder/").
+
+            // This is a sample function which is called when a file is selected in CKFinder.
+            finder.selectActionFunction = function (fileUrl) {
+                document.getElementById(elementId).value = fileUrl;
+            }
+            finder.popup({
+                chooseFiles: true,
+                width: 800,
+                height: 600
+            });
+        }
+    </script>
+}

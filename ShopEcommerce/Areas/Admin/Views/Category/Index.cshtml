@@ -1,0 +1,223 @@
+﻿@model IEnumerable<CPSeed.Models.ProductCategory>
+
+@{
+    ViewBag.Title = "Danh mục sản phẩm";
+}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-7">
+            <h1>
+                @ViewBag.Title
+            </h1>
+        </div>
+        <div class="col-sm-5">
+            <div class="form-group">
+                <div class="pull-right">
+                    <a href="@Href("~/Admin/Category/Details/")" class="btn btn-primary btn-sm">
+                        <i class="ace-icon fa fa-plus bigger-120"></i> Thêm mới
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="tabbable">
+    <ul class="nav nav-tabs" id="myTab">
+        <li class="active">
+            <a data-toggle="tab" href="#general-info">
+                <i class="green ace-icon fa fa-home bigger-120"></i>
+                Danh sách danh mục sản phẩm
+            </a>
+        </li>
+        <li>
+            <a data-toggle="tab" href="#show-hide-list">
+                Ẩn hiện danh mục trên trang chủ
+            </a>
+        </li>
+        <li>
+            <a data-toggle="tab" href="#publish-list">
+                Xuất bản danh mục
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="general-info" class="tab-pane fade in active">
+            <table class="table table-bordered table-hover" id="dynamic-table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.OrderNo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Image)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ParentId)
+                        </th>
+                        <th>Product Count</th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CreatedBy)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CreatedDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ModifiedBy)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ModifiedDate)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderBy(x => x.OrderNo)) {
+                        <tr>
+                            <td width="80" class="center">
+                                @Html.DisplayFor(modelItem => item.OrderNo)
+                            </td>
+                            <td>
+                                <img src="@Href(item.Image)" width="70" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ParentCategory.Name)
+                            </td>
+                            <td class="center">
+                                @item.Products.Count()
+                            </td>
+                            <td>
+                                @item.UserCreated.UserName
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreatedDate)
+                            </td>
+                            <td>
+                                @(item.UserModified != null ? item.UserModified.UserName : "")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ModifiedDate)
+                            </td>
+                            <td class="center" width="100">
+                                <div class="btn-group">
+                                    <a href="@Href("~/Admin/Category/Details/"+item.Id)" class="btn btn-xs btn-success">
+                                        <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                    </a>
+
+                                    <button class="btn btn-xs btn-danger" onclick="SetDeletedItemId('@item.Id')">
+                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div id="show-hide-list" class="tab-pane fade">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-top" for="duallist"> Kéo thả danh mục sản phẩm vào ô bên phải </label>
+                    <div class="col-sm-8">
+                        <select multiple="multiple" size="10" class="duallistbox" id="duallist" onchange="AddIsShowOnHomeList(this)">
+                            @foreach (var item in Model.Where(x => !x.ParentId.HasValue)) {
+                                <option value="@item.Id" @(item.IsShowOnHome.GetValueOrDefault(false) ? "selected='selected'" : "")>@item.Name</option>
+                            }
+                        </select>
+                        <div class="hr hr-16 hr-dotted"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="publish-list" class="tab-pane fade">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-top" for="duallist"> Kéo thả danh mục sản phẩm vào ô bên phải </label>
+                    <div class="col-sm-8">
+                        <select multiple="multiple" size="10" class="duallistbox" id="duallist" onchange="AddIsPublishList(this)">
+                            @foreach (var item in Model) {
+                                <option value="@item.Id" @(item.IsPublish.GetValueOrDefault(false) ? "selected='selected'" : "")>@item.Name</option>
+                            }
+                        </select>
+                        <div class="hr hr-16 hr-dotted"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section styles{
+    <link rel="stylesheet" href="~/Areas/Admin/Assets/css/bootstrap-duallistbox.min.css" />
+}
+@section scripts{
+    <script src="~/Areas/Admin/Assets/js/jquery.dataTables.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/jquery.dataTables.bootstrap.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/dataTables.buttons.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.flash.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.html5.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.print.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.colVis.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/dataTables.select.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/jquery.bootstrap-duallistbox.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var myTable =
+                $('#dynamic-table')
+                    //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+                    .DataTable({
+                        bAutoWidth: false,
+
+                        "aaSorting": []
+                    });
+        })
+
+        jQuery(function ($) {
+            var demo1 = $('.duallistbox').bootstrapDualListbox({
+                filterTextClear: 'Hiện tất cả',
+                filterPlaceHolder: 'Bộ lọc',
+                moveSelectedLabel: 'Di chuyển đã chọn',
+                moveAllLabel: 'Di chuyển tất cả',
+                removeSelectedLabel: 'Bỏ đã chọn',
+                removeAllLabel: 'Xóa tất cả',
+                infoText: 'Hiện tất cả ({0})',
+                infoTextFiltered: '<span class="label label-purple label-lg">Đã lọc</span>',
+                infoTextEmpty: 'Danh sách trống',
+            });
+            var container1 = demo1.bootstrapDualListbox('getContainer');
+            container1.find('.btn').addClass('btn-white btn-info btn-bold');
+        });
+
+        function AddIsShowOnHomeList(sender) {
+            var id = $(sender).val();
+            var ids = ''
+
+            if (id != null) {
+                ids = id.join(',')
+            }
+            $.post('/Admin/Category/AddIsShowOnHomeList', { ids: ids }, function (res) {
+                console.log(res);
+            });
+        }
+
+        function AddIsPublishList(sender) {
+            var id = $(sender).val();
+            var ids = ''
+
+            if (id != null) {
+                ids = id.join(',')
+            }
+            $.post('/Admin/Category/AddIsPublishList', { ids: ids }, function (res) {
+                console.log(res);
+            });
+        }
+    </script>
+}

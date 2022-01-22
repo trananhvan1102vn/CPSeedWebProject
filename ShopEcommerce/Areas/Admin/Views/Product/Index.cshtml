@@ -1,0 +1,197 @@
+﻿@model CPSeed.Areas.Admin.Models.ProductViewModel
+
+@{
+    ViewBag.Title = "Sản phẩm";
+    var categories = (List<CPSeed.Models.ProductCategory>)ViewBag.ProductCategories;
+}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>
+                @ViewBag.Title
+            </h1>
+        </div>
+
+    </div>
+</div>
+@using (Html.BeginForm("Index", "Product", FormMethod.Post)) {
+    <div class="widget-box">
+        <div class="widget-header widget-header-flat">
+            <h4 class="smaller">
+                <i class="ace-icon fa fa-search"></i>
+                Tìm kiếm
+            </h4>
+        </div>
+        <div class="widget-body">
+            <div class="widget-main">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DateFrom, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class=" col-md-2">
+                            <div class="input-group">
+                                @Html.TextBoxFor(model => model.DateFrom, new { @class = "form-control datepicker" })
+                                <span class="input-group-addon">
+                                    <i class="ace-icon fa fa-calendar"></i>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.DateFrom, "", new { @class = "text-danger" })
+                        </div>
+
+                        @Html.LabelFor(model => model.DateTo, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class=" col-md-2">
+                            <div class="input-group">
+                                @Html.TextBoxFor(model => model.DateTo, new { @class = "form-control datepicker" })
+                                <span class="input-group-addon">
+                                    <i class="ace-icon fa fa-calendar"></i>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.DateTo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SKU, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class=" col-md-2">
+                            @Html.EditorFor(model => model.SKU, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.SKU, "", new { @class = "text-danger" })
+                        </div>
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class=" col-md-2">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CategoryIds, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                @foreach (var cate in categories.OrderBy(x => x.OrderNo)) {
+                                    var isSelected = Model.CategoryIds.Any(x => x == cate.Id);
+                                    <div class="col-sm-2">
+                                        <label>
+                                            @*@Html.CheckBox("CategoryId", isSelected, new { @class = "", value = cate.Id })*@
+                                            <input type="checkbox" name="CategoryId" @(isSelected ? "checked" : "") value="@cate.Id" />
+                                            <span>@cate.Name</span>
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button name="btnSubmit" value="search" type="submit" class="btn btn-success"><i class="fa fa-search"></i> Tìm kiếm</button>
+                            <a href="@Href("~/Admin/Product/Details/")" class="btn btn-primary btn-sm">
+                                <i class="ace-icon fa fa-plus bigger-120"></i> Add new
+                            </a>
+                            <a href="#" class="btn btn-info btn-sm">
+                                <i class="ace-icon fa fa-download bigger-120"></i> Import
+                            </a>
+                            <button name="btnSubmit" value="export" class="btn btn-blue btn-sm">
+                                <i class="ace-icon fa fa-upload bigger-120"></i> Export
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<table class="table table-bordered table-hover" id="dynamic-table">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>Ảnh thu nhỏ</th>
+            <th>SKU</th>
+            <th>Tên</th>
+            <th class="text-right">Giá</th>
+            <th class="text-right">Số lượng</th>
+            <th>Người tạo</th>
+            <th>Ngày tạo</th>
+            @*<th>Người cập nhật</th>
+                <th>Ngày cập nhật</th>*@
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model.Results.OrderBy(x => x.OrderNo)) {
+            <tr>
+                <td width="80" class="center">
+                    @Html.DisplayFor(modelItem => item.OrderNo)
+                </td>
+                <td>
+                    <img src="@Href(item.Thumnail)" width="70" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SKU)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td class="text-right">
+                    @item.Price.ToString("N0")
+                </td>
+
+                <td class="text-right">
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+
+                <td>
+                    @item.UserCreated.UserName
+                </td>
+                <td>
+                    @item.CreatedDate.ToString("dd/MM/yyyy HH:mm")
+                </td>
+                @*<td>
+                        @(item.UserModified != null ? item.UserModified.UserName : "")
+                    </td>
+                    <td>
+                        @(item.ModifiedDate.HasValue ? item.ModifiedDate.Value.ToString("dd/MM/yyyy HH:mm"):"")
+                    </td>*@
+                <td class="center" width="100">
+                    <div class="btn-group">
+                        <a href="@Href("~/Admin/Product/Details/"+item.Id)" class="btn btn-xs btn-success">
+                            <i class="ace-icon fa fa-pencil bigger-120"></i>
+                        </a>
+
+                        <button class="btn btn-xs btn-danger" onclick="SetDeletedItemId('@item.Id')">
+                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+@section styles{
+    <link href="~/Areas/Admin/Assets/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+}
+@section scripts{
+    <script src="~/Areas/Admin/Assets/js/jquery.dataTables.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/jquery.dataTables.bootstrap.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/dataTables.buttons.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.flash.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.html5.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.print.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.colVis.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/dataTables.select.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/bootstrap-datepicker.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var myTable =
+                $('#dynamic-table')
+                    //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+                    .DataTable({
+                        bAutoWidth: false,
+
+                        "aaSorting": []
+                    });
+            $('.datepicker').datepicker({
+                autoclose: true,
+            });
+        })
+    </script>
+}

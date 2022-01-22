@@ -1,0 +1,24 @@
+﻿@model List<CPSeed.Models.Vendor>
+<section class="section-links bg padding-y-sm">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <header class="section-heading heading-line">
+                    <h4 class="title-section bg text-uppercase">Nhà cung cấp</h4>
+                </header>
+
+                <ul class="list-icon row">
+                    @foreach (var item in Model) {
+                        <li class="col-md-2 col-sm-4 col-xs-6"><a href="javascript:void(0)" class="text-dark"><img src="@item.Image"><span>@item.Name</span></a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <figure class="mt-3 banner p-3 bg-white">
+            <div class="text-lg text-center danger">
+                <a href="~/Product" class="text-dark">Có rất nhiều sản phẩm, chắc chắn bạn sẽ thích</a>
+            </div>
+        </figure>
+    </div>
+</section>

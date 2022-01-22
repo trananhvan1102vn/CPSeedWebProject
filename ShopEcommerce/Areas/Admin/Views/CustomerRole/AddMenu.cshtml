@@ -1,0 +1,135 @@
+﻿@model CPSeed.Models.ApplicationRole
+@{
+    ViewBag.Title = "Thêm menu vào vai trò";
+    var menus = (List<CPSeed.Models.Menu>)ViewBag.Menus;
+}
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-7">
+            <h1>
+                @ViewBag.Title
+                <small>
+                    <a href="@Href("~/Admin/CustomerRole")" class=""><i class="fa fa-reply"></i> Trở về danh sách</a>
+                </small>
+            </h1>
+        </div>
+    </div>
+</div>
+@Html.HiddenFor(m => m.Id)
+<div class="form-group">
+    <label class="col-sm-3 control-label no-padding-top" for="duallist"> Kéo thả menu vào ô bên phải </label>
+
+    <div class="col-sm-8">
+        <select multiple="multiple" size="10" name="duallistbox_demo1[]" id="duallist" onchange="AddMenusToRole(this)">
+            @foreach (var item in menus) {
+                <option value="@item.Id" @(Model.Menus.Any(x => x.Id == item.Id) ? "selected='selected'" : "")>@item.Name</option>
+            }
+        </select>
+        <div class="hr hr-16 hr-dotted"></div>
+    </div>
+</div>
+
+@*<div class="row">
+    <div class="col-sm-6">
+        <div class="dd" id="nestable">
+            <ol class="dd-list">
+                @foreach (var item in menus.Where(x => !x.ParentId.HasValue)) {
+                    <li class="dd-item item-orange" data-id="1">
+                        <div class="dd-handle">
+                            @item.Name
+                            <i class="pull-right bigger-130 ace-icon fa fa-external-link orange2"></i>
+                        </div>
+                        @if (item.MenuChilds.Count() > 0) {
+                            <ol class="dd-list">
+                                @foreach (var childItem in item.MenuChilds) {
+                                    <li class="dd-item" data-id="3">
+                                        <div class="dd-handle">
+                                            @childItem.Name
+                                            <i class="pull-right bigger-130 ace-icon fa fa-external-link orange2"></i>
+                                        </div>
+                                    </li>
+                                }
+                            </ol>
+                        }
+                    </li>
+                }
+            </ol>
+        </div>
+    </div>
+    <div class="vspace-16-sm"></div>
+    <div class="col-sm-6">
+        <div class="dd dd-draghandle">
+            <ol class="dd-list">
+                @foreach (var item in Model.Menus.Where(x => !x.ParentId.HasValue)) {
+                    <li class="dd-item item-orange" data-id="1">
+                        <div class="dd-handle">
+                            @item.Name
+                            <i class="pull-right bigger-130 ace-icon fa fa-external-link orange2"></i>
+                        </div>
+                        @if (item.MenuChilds.Count() > 0) {
+                            <ol class="dd-list">
+                                @foreach (var childItem in item.MenuChilds) {
+                                    <li class="dd-item" data-id="3">
+                                        <div class="dd-handle">
+                                            @childItem.Name
+                                            <i class="pull-right bigger-130 ace-icon fa fa-external-link orange2"></i>
+                                        </div>
+                                    </li>
+                                }
+                            </ol>
+                        }
+                    </li>
+                }
+            </ol>
+        </div>
+    </div>
+</div>*@
+@section styles{
+
+    <link rel="stylesheet" href="~/Areas/Admin/Assets/css/bootstrap-duallistbox.min.css" />
+}
+
+@section scripts{
+    <script src="~/Areas/Admin/Assets/js/jquery.bootstrap-duallistbox.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/jquery.nestable.min.js"></script>
+    <script>
+        jQuery(function ($) {
+
+            $('.dd').nestable();
+
+            $('.dd-handle a').on('mousedown', function (e) {
+                e.stopPropagation();
+            });
+
+            $('[data-rel="tooltip"]').tooltip();
+
+        });
+        jQuery(function ($) {
+            var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox({
+                filterTextClear: 'Hiện tất cả',
+                filterPlaceHolder: 'Bộ lọc',
+                moveSelectedLabel: 'Di chuyển đã chọn',
+                moveAllLabel: 'Di chuyển tất cả',
+                removeSelectedLabel: 'Bỏ đã chọn',
+                removeAllLabel: 'Xóa tất cả',
+                infoText: 'Hiện tất cả ({0})',
+                infoTextFiltered: '<span class="label label-purple label-lg">Đã lọc</span>',
+                infoTextEmpty: 'Danh sách trống',
+            });
+            var container1 = demo1.bootstrapDualListbox('getContainer');
+            container1.find('.btn').addClass('btn-white btn-info btn-bold');
+        });
+        function AddMenusToRole(sender) {
+            var id = $(sender).val();
+            var roleId = $('#Id').val();
+            var ids = ''
+
+            if (id != null) {
+                ids = id.join(',')
+            }
+            $.post('/Admin/CustomerRole/AddMenusToRole', { roleId: roleId, ids: ids }, function (res) {
+                console.log(res);
+            });
+        }
+    </script>
+}

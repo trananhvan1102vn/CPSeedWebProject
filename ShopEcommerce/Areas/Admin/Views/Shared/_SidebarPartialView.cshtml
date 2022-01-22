@@ -1,0 +1,62 @@
+﻿@using CPSeed.Models
+@{
+    var menus = (List<Menu>)ViewBag.MyMenus;
+    List<Menu> mainMenus = menus.Where(m => m.ParentId == null).OrderBy(c => c.GroupOrder).ToList();
+}
+<div id="sidebar" class="sidebar responsive ace-save-state sidebar-fixed">
+    <script type="text/javascript">
+        try { ace.settings.loadState('sidebar') } catch (e) { }
+    </script>
+
+
+    <ul class="nav nav-list">
+        @foreach (Menu mainMenu in mainMenus) {
+            @RenderMenuItem(mainMenu, menus);
+        }
+    </ul>
+
+    <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+        <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+    </div>
+</div>
+
+
+@helper RenderMenuItem(Menu menu, List<Menu> allMenus) {
+string currentController = ViewContext.RouteData.Values["controller"].ToString();
+string currentAction = ViewContext.RouteData.Values["action"].ToString();
+List<Menu> subMenus = allMenus.Where(m => m.ParentId == menu.Id).OrderBy(c => c.GroupOrder).ToList();
+bool isChildActive = subMenus.Count(m => m.Controller == currentController) > 0;
+    <li class="@((menu.Controller == currentController
+              && (currentAction == "Index" || string.IsNullOrEmpty(menu.ActionName) || currentAction == menu.ActionName))
+                                                || isChildActive ? " active open" : "")">
+        <a href="@(menu.Link != null ? Href(menu.Link) : "javascript:void(0)")" class="@(menu.IsGroupHeader ? "dropdown-toggle" : "")" target="@menu.Target">
+            <i class="menu-icon @menu.CssClass"></i>
+            <span class="menu-text"> @menu.Name</span>
+            @if (menu.IsGroupHeader) {
+                <b class="arrow fa fa-angle-down"></b>
+            }
+        </a>
+        <b class="arrow"></b>
+        @if (menu.IsGroupHeader) {
+            <ul class="submenu can-scroll ace-scroll scroll-disabled">
+                @foreach (Menu child in subMenus) {
+                    @RenderChildMenuItem(child, 2);
+                }
+            </ul>
+        }
+    </li>
+}
+@helper RenderChildMenuItem(Menu menu, int level) {
+string currentController = ViewContext.RouteData.Values["controller"].ToString();
+string currentAction = ViewContext.RouteData.Values["action"].ToString();
+
+bool isActive = menu.Controller == currentController;
+
+    <li class="@(isActive ? "active" : "")">
+        <a href="@(menu.Link != null ? Href(menu.Link) : "javascript:void(0)")" target="@menu.Target">
+            <i class="menu-icon fa fa-caret-right"></i>
+            @menu.Name
+        </a>
+        <b class="arrow"></b>
+    </li>
+}

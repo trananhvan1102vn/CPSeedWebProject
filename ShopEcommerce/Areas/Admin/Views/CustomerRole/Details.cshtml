@@ -1,0 +1,125 @@
+﻿@using Microsoft.AspNet.Identity.EntityFramework
+@model CPSeed.Models.ApplicationRole
+@{
+    ViewBag.Title = "Vai trò thành viên";
+    var users = (List<CPSeed.Models.ApplicationUser>)ViewBag.Users;
+}
+
+<div class="tabbable">
+    <ul id="inbox-tabs" class="inbox-tabs nav nav-tabs tab-size-bigger tab-space-1">
+        <li class="li-new-mail pull-right">
+            <span href="javascript:void(0)" class="">
+                <a class="btn btn-warning btn-white" href="@Href("~/Admin/CustomerRole")">
+                    <i class="ace-icon fa fa-reply bigger-130"></i>
+                    <span class="bigger-110">Trở về danh sách</span>
+                </a>
+                <a class="btn btn-primary btn-white">
+                    <i class="ace-icon fa fa-plus bigger-130"></i>
+                    <span class="bigger-110">Thêm thành viên</span>
+                </a>
+            </span>
+        </li>
+
+        <li class="active">
+            <a data-toggle="tab" href="#inbox" data-target="inbox">
+                @*<i class="blue ace-icon fa fa-user-secret bigger-130"></i>*@
+                <span class="bigger-110">@Model.Name ( có @Model.Users.Count() thành viên)</span>
+            </a>
+        </li>
+
+    </ul>
+
+    <div class="tab-content no-border no-padding">
+        <div id="inbox" class="tab-pane in active">
+            <div class="message-container">
+
+                <table class="table table-bordered table-hover" id="dynamic-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                UserName
+                            </th>
+                            <th>
+                                Photo
+                            </th>
+                            <th>
+                                FullName
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Created Date
+                            </th>
+                            <th>
+                                Modified Date
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in users) {
+                            <tr>
+                                <td width="80" class="">
+                                    @Html.DisplayFor(modelItem => item.UserName)
+                                </td>
+                                <td>
+                                    <img src="@Href(item.Photo)" width="70" />
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FullName)
+                                </td>
+                                <td>
+                                    <a href="mailto:@item.Email"><i class="fa fa-external-link-alt"></i> @item.Email</a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ModifiedDate)
+                                </td>
+
+                                <td class="center" width="100">
+                                    <div class="btn-group">
+                                        <a href="@Href("~/Admin/Customer/Details/"+item.Id)" target="_blank" class="btn btn-xs btn-success">
+                                            <i class="ace-icon fa fa-search bigger-120"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section styles{
+
+}
+@section scripts{
+    <script src="~/Areas/Admin/Assets/js/jquery.dataTables.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/jquery.dataTables.bootstrap.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/dataTables.buttons.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.flash.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.html5.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.print.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.colVis.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/dataTables.select.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var myTable =
+                $('#dynamic-table')
+                    //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+                    .DataTable({
+                        bAutoWidth: false,
+
+                        "aaSorting": []
+                    });
+        })
+    </script>
+}

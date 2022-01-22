@@ -1,0 +1,84 @@
+﻿@*@model CPSeed.Models.Topic*@
+@{
+    var visitorCounter = (CPSeed.Models.VisitorCounter)ViewBag.VisitorCounter;
+    var configSetting = (CPSeed.Models.ConfigSetting)ViewBag.ConfigSetting;
+}
+<footer class="section-footer">
+    <div class="container">
+        <hr />
+        <section class="footer-top padding-top border-top-dark">
+            <div class="row">
+                <aside class="col-sm-3 col-md-3 dark">
+                    <h5 class="title">Thống kê truy cập</h5>
+                    <div class="">
+                        <dl class="dlist-align">
+                            <dt style="width:100px;font-weight:normal">Đang online: </dt>
+                            <dd style="margin-left:120px"><b>@visitorCounter.Online.ToString("N0")</b></dd>
+                        </dl>
+                        <dl class="dlist-align">
+                            <dt style="width:100px;font-weight:normal">Hôm nay: </dt>
+                            <dd style="margin-left:120px"><b>@visitorCounter.Today.ToString("N0")</b></dd>
+                        </dl>
+                        <dl class="dlist-align">
+                            <dt style="width:100px;font-weight:normal">Lượt truy cập:</dt>
+                            <dd style="margin-left:120px"><b>@visitorCounter.Total.ToString("N0")</b></dd>
+                        </dl>
+                    </div>
+                </aside>
+                <aside class="col-sm-3  col-md-3 dark">
+                    <h5 class="title">Tài khoản của tôi</h5>
+                    <ul class="list-unstyled">
+                        <li> <a href="~/Account/Login"> Trang đăng nhập </a></li>
+                        <li> <a href="~/Account/Register"> Trang đăng ký </a></li>
+                        <li> <a href="~/Manage/"> Thiết lập tài khoản </a></li>
+                        <li> <a href="~/Cart"> Đơn hàng của tôi </a></li>
+                    </ul>
+                </aside>
+                <aside class="col-sm-3  col-md-3 dark">
+                    <h5 class="title">Dịch vụ khách hàng</h5>
+                    <ul class="list-unstyled">
+                        <li> <a href="#">Bảo hành</a></li>
+                        <li> <a href="#">Đổi trả hàng</a></li>
+                        <li> <a href="#">Thanh toán - Tài khoản</a></li>
+                        <li> <a href="#">Giờ phục vụ</a></li>
+                    </ul>
+                </aside>
+                <aside class="col-sm-3">
+                    <article class="dark">
+                        <h5 class="title">Liên hệ</h5>
+                        <p>
+                            <span>Điện thoại: </span> <b>@configSetting.PhoneNumber</b> <br>
+                            <span>Di động:</span> <b>@configSetting.MobilePhone</b>
+                        </p>
+
+                        <div class="btn-group dark">
+                            <a class="btn btn-facebook" title="Facebook" target="_blank" href="@configSetting.Facebook"><i class="fab fa-facebook-f  fa-fw"></i></a>
+                            <a class="btn btn-instagram" title="Instagram" target="_blank" href="@configSetting.Instagram"><i class="fab fa-instagram  fa-fw"></i></a>
+                            <a class="btn btn-youtube" title="Youtube" target="_blank" href="@configSetting.Youtube"><i class="fab fa-youtube  fa-fw"></i></a>
+                            @*<a class="btn btn-twitter" title="Twitter" target="_blank" href="#"><i class="fab fa-twitter  fa-fw"></i></a>*@
+                        </div>
+                    </article>
+                </aside>
+            </div>
+            <br>
+        </section>
+        <hr />
+        <section class="footer-bottom border-top-dark">
+            <div class="row">
+                <div class="col-sm-6">
+                    <a href="/" class="text-black-50">@configSetting.AppName</a><br>
+                    <a href="javascript:void(0)" class="text-black-50">@configSetting.Address</a>
+                </div>
+                <div class="col-sm-6">
+                    <p class="text-md-right text-black-50">
+                        Liên hệ<br>
+                        <a href="tel:@configSetting.PhoneNumber" class="text-black-50">@configSetting.PhoneNumber</a>
+                        @if (!string.IsNullOrEmpty(configSetting.MobilePhone)) {
+                            <a href="tel:@configSetting.MobilePhone" class="text-black-50"> - @configSetting.MobilePhone</a>
+                        }
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+</footer>

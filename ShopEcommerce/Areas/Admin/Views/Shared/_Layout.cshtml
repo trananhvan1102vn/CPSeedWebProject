@@ -1,0 +1,105 @@
+﻿@using MvcSiteMapProvider.Web.Html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+
+    <link rel="stylesheet" href="~/Areas/Admin/Assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/Assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+
+    <link rel="stylesheet" href="~/Areas/Admin/Assets/css/fonts.googleapis.com.css" />
+
+    <link rel="stylesheet" href="~/Areas/Admin/Assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+
+    <link rel="stylesheet" href="~/Areas/Admin/Assets/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/Assets/css/ace-rtl.min.css" />
+
+    <script src="~/Areas/Admin/Assets/js/ace-extra.min.js"></script>
+    <link href="~/Areas/Admin/Assets/styles.css" rel="stylesheet" />
+    @RenderSection("styles", required: false)
+</head>
+<body class="no-skin">
+    @{ Html.RenderPartial("_NavbarPartialView");}
+
+    <div class="main-container ace-save-state" id="main-container">
+        <script type="text/javascript">
+            try { ace.settings.loadState('main-container') } catch (e) { }
+        </script>
+
+        @{ Html.RenderPartial("_SidebarPartialView");}
+
+        <div class="main-content">
+            <div class="main-content-inner">
+                <div class="breadcrumbs ace-save-state breadcrumbs-fixed" id="breadcrumbs">
+                    <ul class="breadcrumb">
+                        @Html.MvcSiteMap().SiteMapPath()
+                    </ul>
+
+                    <div class="nav-search" id="nav-search">
+                        <form class="form-search">
+                            <span class="input-icon">
+                                <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+                                <i class="ace-icon fa fa-search nav-search-icon"></i>
+                            </span>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="page-content">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @{ Html.RenderPartial("_FooterPartialView");}
+    </div>
+    @Html.Partial("_deletePopup")
+    <script src="~/Areas/Admin/Assets/js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript">
+        if ('ontouchstart' in document.documentElement) document.write("<script src='~/Areas/Admin/Assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+    </script>
+    <script src="~/Areas/Admin/Assets/js/bootstrap.min.js"></script>
+
+    <script src="~/Areas/Admin/Assets/js/ace-elements.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/ace.min.js"></script>
+    <script src="~/Areas/Admin/Assets/scripts.js"></script>
+    @RenderSection("scripts", required: false)
+    <style>
+        .control-label {
+            font-weight: bold !important;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+        }
+    </style>
+    <script>
+
+        $('#myTab a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+        // store the currently selected tab in the hash value
+        $("ul.nav-tabs > li > a").on("shown.bs.tab", function (e) {
+            var id = $(e.target).attr("href").substr(1);
+            //window.location.hash = id;
+            localStorage.myTab = "#" + id;
+        });
+        // on load of the page: switch to the currently selected tab
+        //var hash = window.location.hash;
+        //console.log(localStorage.myTab);
+        //console.log(hash);
+        $('#myTab a[href="' + localStorage.myTab + '"]').tab('show');
+    </script>
+</body>
+</html>

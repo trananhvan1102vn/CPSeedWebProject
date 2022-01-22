@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mvcSiteMap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0"
+            xsi:schemaLocation="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-4.0 MvcSiteMapSchema.xsd">
+  <mvcSiteMapNode title="Admin" area="Admin" controller="" action="Index">
+    
+    <mvcSiteMapNode title="Bảng điều khiển" area="Admin" controller="Dashboard" action="Index"/>
+    
+    <mvcSiteMapNode title="Danh mục sản phẩm" area="Admin" controller="Category" action="Index">
+      <mvcSiteMapNode title="Chi tiết" area="Admin" controller="Category" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+
+    <mvcSiteMapNode title="Danh mục banner" area="Admin" controller="BannerCategory" action="Index">
+      <mvcSiteMapNode title="Chi tiết" area="Admin" controller="BannerCategory" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+
+    <mvcSiteMapNode title="Banner" area="Admin" controller="Banner" action="Index">
+      <mvcSiteMapNode title="Chi tiết" area="Admin" controller="Banner" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+
+    <mvcSiteMapNode title="Sản phẩm" area="Admin" controller="Product" action="Index">
+      <mvcSiteMapNode title="Chi tiết" area="Admin" controller="Product" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+
+    <mvcSiteMapNode title="Thành viên" area="Admin" controller="Customer" action="Index">
+      <mvcSiteMapNode title="Chi tiết" area="Admin" controller="Customer" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+
+    <mvcSiteMapNode title="Vai trò thành viên" area="Admin" controller="CustomerRole" action="Index">
+      <mvcSiteMapNode title="Chi tiết" area="Admin" controller="CustomerRole" action="Details" preservedRouteParameters="id"/>
+      <mvcSiteMapNode title="Thêm menu vào vai trò" area="Admin" controller="CustomerRole" action="AddMenu" preservedRouteParameters="id"/>
+      <mvcSiteMapNode title="Thêm người dùng vào vai trò" area="Admin" controller="CustomerRole" action="AddUser" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+    
+    <mvcSiteMapNode title="Nhật ký hoạt động" area="Admin" controller="ActivityLog" action="Index">
+      <mvcSiteMapNode title="Chi tiết" area="Admin" controller="ActivityLog" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+     
+    <mvcSiteMapNode title="Nhà sản xuất" area="Admin" controller="Manufacturer" action="Index">
+      <mvcSiteMapNode title="Chi tiết" area="Admin" controller="Manufacturer" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+     
+    <mvcSiteMapNode title="Đánh giá sản phẩm" area="Admin" controller="ProductReview" action="Index">
+      <mvcSiteMapNode title="Chi tiết" area="Admin" controller="ProductReview" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+    
+    <mvcSiteMapNode title="Thẻ sản phẩm" area="Admin" controller="ProductTag" action="Index">
+      <mvcSiteMapNode title="Chi tiết" area="Admin" controller="ProductTag" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+    
+    <mvcSiteMapNode title="Đơn đặt hàng" area="Admin" controller="Order" action="Index">
+      <mvcSiteMapNode title="Chi tiết" area="Admin" controller="Order" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+    
+    <mvcSiteMapNode title="Lô hàng" area="Admin" controller="Shipment" action="Index">
+      <mvcSiteMapNode title="Chi tiết" area="Admin" controller="Shipment" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+    
+    <mvcSiteMapNode title="Khách hàng trực tuyến" area="Admin" controller="OnlineCustomer" action="Index">
+      <mvcSiteMapNode title="Chi tiết" area="Admin" controller="OnlineCustomer" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+    
+    <mvcSiteMapNode title="Chủ đề" area="Admin" controller="Topic" action="Index">
+      <mvcSiteMapNode title="Chi tiết" area="Admin" controller="Topic" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+    
+    <mvcSiteMapNode title="Bài viết" area="Admin" controller="Blog" action="Index">
+      <mvcSiteMapNode title="Chi tiết" area="Admin" controller="Blog" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+    
+    <mvcSiteMapNode title="Thông tin hệ thống" area="Admin" controller="SystemInformation" action="Index">
+      <mvcSiteMapNode title="Chi tiết" area="Admin" controller="SystemInformation" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+    
+    <mvcSiteMapNode title="Nhật ký hoạt động" area="Admin" controller="Log" action="Index">
+      <mvcSiteMapNode title="Chi tiết" area="Admin" controller="Log" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+     
+    <mvcSiteMapNode title="Bán chạy nhất" area="Admin" controller="Bestseller" action="Index">
+      <mvcSiteMapNode title="Chi tiết" area="Admin" controller="Bestseller" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+      
+    <mvcSiteMapNode title="Sản phẩm chưa được mua" area="Admin" controller="ProductsNeverPurchased" action="Index">
+      <mvcSiteMapNode title="Chi tiết" area="Admin" controller="ProductsNeverPurchased" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+    
+    <mvcSiteMapNode title="Báo cáo khách hàng" area="Admin" controller="CustomerReport" action="Index">
+      <mvcSiteMapNode title="Chi tiết" area="Admin" controller="CustomerReport" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+    
+    <mvcSiteMapNode title="Yêu cầu trả hàng" area="Admin" controller="ReturnRequest" action="Index">
+      <mvcSiteMapNode title="Chi tiết" area="Admin" controller="ReturnRequest" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+    
+    <mvcSiteMapNode title="Plugin" area="Admin" controller="Plugin" action="Index">
+      <mvcSiteMapNode title="Chi tiết" area="Admin" controller="Plugin" action="Details" preservedRouteParameters="id"/>
+    </mvcSiteMapNode>
+    
+    <mvcSiteMapNode title="Sản phẩm đề xuất" area="Admin" controller="FeaturedProduct" action="Index"/>
+    <mvcSiteMapNode title="Sản phẩm hot" area="Admin" controller="HotedProduct" action="Index"/>
+    
+  </mvcSiteMapNode>
+
+</mvcSiteMap>

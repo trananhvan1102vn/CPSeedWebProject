@@ -1,0 +1,38 @@
+﻿@model CPSeed.Models.VerifyCodeViewModel
+@{
+    ViewBag.Title = "Xác minh";
+}
+
+<section class="section-main shadow-sm padding-y-sm">
+    <div class="container">
+
+        <h2>@ViewBag.Title.</h2>
+
+        @using (Html.BeginForm("VerifyCode", "Account", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("provider", @Model.Provider)
+            @Html.Hidden("rememberMe", @Model.RememberMe)
+            <h4>Mã xác minh tài khoản đã được gửi tới <b>@(Model.Provider == "Email Code" ? "Email" : "Phone")</b> của bạn</h4>
+            <hr />
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="form-group" style="max-width:500px">
+                @Html.LabelFor(m => m.Code, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.Code, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    @Html.CheckBoxFor(m => m.RememberBrowser)
+                    @Html.LabelFor(m => m.RememberBrowser)
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-success" value="Xác nhận" />
+            </div>
+        }
+    </div>
+</section>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

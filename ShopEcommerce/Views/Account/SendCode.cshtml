@@ -1,0 +1,32 @@
+﻿@model CPSeed.Models.SendCodeViewModel
+@{
+    ViewBag.Title = "Xác minh đăng nhập";
+}
+
+<section class="section-main shadow-sm padding-y-sm">
+    <div class="container">
+        <h2>@ViewBag.Title.</h2>
+
+        @using (Html.BeginForm("SendCode", "Account", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("rememberMe", @Model.RememberMe)
+            <h4>Hãy xác minh tài khoản đó là của bạn.</h4>
+            <hr />
+            @*Select Two-Factor Authentication Provider:*@
+            <label class="control-label">Bạn muốn nhận mã đăng nhâp bằng cách nào?</label>
+            <div class="row-sm">
+                <div class="col-4">
+                    @Html.DropDownListFor(model => model.SelectedProvider, Model.Providers, new { @class = "form-control" })
+                </div>
+                <div class="col-1">
+                    <input type="submit" value="Tiếp theo" class="btn btn-success" />
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

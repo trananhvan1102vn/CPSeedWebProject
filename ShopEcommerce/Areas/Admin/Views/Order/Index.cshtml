@@ -1,0 +1,170 @@
+﻿@model CPSeed.Areas.Admin.Models.ProductionOrderViewModel
+@{
+    ViewBag.Title = "Đơn đặt hàng";
+}
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-7">
+            <h1>
+                @ViewBag.Title
+            </h1>
+        </div>
+
+    </div>
+</div>
+@using (Html.BeginForm("Index", "Order", FormMethod.Post)) {
+    <div class="widget-box">
+        <div class="widget-header widget-header-flat">
+            <h4 class="smaller">
+                <i class="ace-icon fa fa-search"></i>
+                Tìm kiếm
+            </h4>
+        </div>
+        <div class="widget-body">
+            <div class="widget-main">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DateFrom, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class=" col-md-2">
+                            <div class="input-group">
+                                @Html.TextBoxFor(model => model.DateFrom, new { @class = "form-control datepicker" })
+                                <span class="input-group-addon">
+                                    <i class="ace-icon fa fa-calendar"></i>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.DateFrom, "", new { @class = "text-danger" })
+                        </div>
+
+                        @Html.LabelFor(model => model.DateTo, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class=" col-md-2">
+                            <div class="input-group">
+                                @Html.TextBoxFor(model => model.DateTo,  new { @class = "form-control datepicker" })
+                                <span class="input-group-addon">
+                                    <i class="ace-icon fa fa-calendar"></i>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.DateTo, "", new { @class = "text-danger" })
+                        </div>
+
+                        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class=" col-md-2">
+                            @Html.DropDownListFor(model => model.Status, new SelectList(new string[] { "Pending", "Processing", "Finished", "Rejected" }), "", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PONumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class=" col-md-2">
+                            @Html.EditorFor(model => model.PONumber, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.PONumber, "", new { @class = "text-danger" })
+                        </div>
+                        @Html.LabelFor(model => model.CustomerName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class=" col-md-2">
+                            @Html.EditorFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="submit" class="btn btn-success"><i class="fa fa-search"></i> Tìm kiếm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<table class="table table-bordered table-hover" id="dynamic-table">
+    <thead>
+        <tr>
+            <th>Số đơn hàng</th>
+            <th>Họ tên</th>
+            <th>Số điện thoại</th>
+            <th>Địa chỉ email</th>
+            <th class="text-right">Số lượng</th>
+            <th class="text-right">Tổng thanh toán</th>
+            <th>Ngày tạo</th>
+            <th>Trạng thái</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model.Results) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PONumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <a href="tel:@item.PhoneNumber">@item.PhoneNumber</a>
+                </td>
+                <td>
+                    <a href="mailto:@item.Email">@item.Email</a>
+                </td>
+                <td class="text-right">
+                    @item.Quantity.ToString("N0")
+                </td>
+                <td class="text-right">
+                    <b class="text-success">@item.Total.ToString("N0") đ</b>
+                </td>
+                <td>
+                    @item.CreatedDate.ToString("dd/MM/yyyy HH:mm")
+                </td>
+                <td>
+                    @if (item.Status == "Pending") {
+                        <span class="label label-warning label-white">@item.Status</span>
+                    } else if (item.Status == "Processing") {
+                        <span class="label label-info label-white">@item.Status</span>
+                    } else if (item.Status == "Finished") {
+                        <span class="label label-success label-white">@item.Status</span>
+                    } else if (item.Status == "Rejected") {
+                        <span class="label label-danger label-white">@item.Status</span>
+                    }
+                </td>
+                <td class="center" width="100">
+                    <div class="btn-group">
+                        <a href="@Href("~/Admin/File/GenerateProductionOrder/"+item.Id)" class="btn btn-xs btn-danger btn-white" target="_blank">
+                            <i class="ace-icon fa fa-file-pdf-o bigger-120"></i>
+                        </a>
+                        <a href="@Href("~/Admin/Order/Details/"+item.Id)" class="btn btn-xs btn-success">
+                            <i class="ace-icon fa fa-search bigger-120"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+@section styles{
+    <link href="~/Areas/Admin/Assets/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+}
+@section scripts{
+    <script src="~/Areas/Admin/Assets/js/jquery.dataTables.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/jquery.dataTables.bootstrap.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/dataTables.buttons.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.flash.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.html5.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.print.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.colVis.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/dataTables.select.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/bootstrap-datepicker.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var myTable =
+                $('#dynamic-table')
+                    //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+                    .DataTable({
+                        bAutoWidth: false,
+
+                        "aaSorting": []
+                    });
+            $('.datepicker').datepicker({
+                autoclose: true,
+            });
+        })
+    </script>
+}

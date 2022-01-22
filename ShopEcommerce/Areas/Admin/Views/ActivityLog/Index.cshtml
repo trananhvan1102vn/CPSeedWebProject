@@ -1,0 +1,85 @@
+﻿
+@model IEnumerable<CPSeed.Models.LoginSession>
+@{
+    ViewBag.Title = "Nhật ký hoạt động";
+}
+<div class="page-header">
+    <div class="row">
+        <div class="col-sm-7">
+            <h1>
+                @ViewBag.Title
+            </h1>
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered table-hover" id="dynamic-table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HostName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IPAddress)
+            </th>
+            <th class="center">
+                @Html.DisplayNameFor(model => model.LoginTime)
+            </th>
+            <th class="center">
+                @Html.DisplayNameFor(model => model.LogoffTime)
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserCreated.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HostName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IPAddress)
+                </td>
+                <td class="center">
+                    @Html.DisplayFor(modelItem => item.LoginTime)
+                </td>
+                <td class="center">
+                    @Html.DisplayFor(modelItem => item.LogoffTime)
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+@section styles{
+
+}
+@section scripts{
+    <script src="~/Areas/Admin/Assets/js/jquery.dataTables.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/jquery.dataTables.bootstrap.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/dataTables.buttons.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.flash.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.html5.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.print.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.colVis.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/dataTables.select.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var myTable =
+                $('#dynamic-table')
+                    //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+                    .DataTable({
+                        bAutoWidth: false,
+
+                        "aaSorting": []
+                    });
+        })
+    </script>
+}

@@ -1,0 +1,54 @@
+﻿@using Microsoft.AspNet.Identity
+@using CPSeed.Models
+@model LoginViewModel
+<div class="col-auto">
+    <div class="widget-header dropdown">
+        @if (Request.IsAuthenticated) {
+            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" })) {
+                @Html.AntiForgeryToken()
+            }
+            <a href="#" data-toggle="dropdown" data-offset="20,10">
+                <div class="icontext">
+                    <div class="icon-wrap"><i class="text-primary icon-sm fa fa-user"></i></div>
+                    <div class="text-wrap text-dark">
+                        Xin chào <br>
+                        @User.Identity.GetUserName() <i class="fa fa-caret-down"></i>
+                    </div>
+                </div>
+            </a>
+            <div class="dropdown-menu">
+                @if (User.IsInRole("Admin")) {
+                    <a class="dropdown-item" href="@Href("~/Admin/Dashboard")" target="_blank">Admin</a>
+                }
+                <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()">Đăng xuất</a>
+            </div>
+        } else {
+            <a href="#" data-toggle="dropdown" data-offset="20,10">
+                <div class="icontext">
+                    <div class="icon-wrap"><i class="text-primary icon-sm fa fa-user"></i></div>
+                    <div class="text-wrap text-dark">
+                        Đăng nhập <br>
+                        Tài khoản của bạn <i class="fa fa-caret-down"></i>
+                    </div>
+                </div>
+            </a>
+            <div class="dropdown-menu">
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "px-4 py-3", role = "form" })) {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "email@example.com" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                    </div>
+                        <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                }
+                <hr class="dropdown-divider">
+                <a class="dropdown-item" href="@Href("~/Account/Register")">Đăng ký tài khoản mới</a>
+                <a class="dropdown-item" href="@Href("~/Account/ForgotPassword")">Bạn đã quên mật khẩu?</a>
+            </div>
+        }
+    </div>
+</div>

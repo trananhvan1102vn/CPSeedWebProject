@@ -1,0 +1,137 @@
+﻿@model IEnumerable<CPSeed.Models.ProductTag>
+@{
+    ViewBag.Title = "Đoạn này tạm thời không cần dùng";
+}
+@* Not using it atm *@
+<div class="page-header">
+    
+    <div class="row">
+        <div class="col-sm-7">
+            <h1>
+                @ViewBag.Title
+            </h1>
+        </div>
+        <div class="col-sm-5">
+            <div class="form-group">
+                <div class="pull-right">
+                    <a href="javascript:void(0)" onclick="AddNewTag()" class="btn btn-primary btn-sm">
+                        <i class="ace-icon fa fa-plus bigger-120"></i> Thêm mới
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<table class="table table-bordered table-hover" id="dynamic-table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>Product Count</th>
+
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td id="td-tag-name-@item.Id">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td class="center">
+                    @item.Products.Count()
+                </td>
+
+                <td class="center" width="100">
+                    <div class="btn-group">
+                        <a href="javascript:void(0)" onclick="EditTag('@item.Id')" class="btn btn-xs btn-success">
+                            <i class="ace-icon fa fa-pencil bigger-120"></i>
+                        </a>
+
+                        <button class="btn btn-xs btn-danger" onclick="SetDeletedItemId('@item.Id')">
+                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<div id="modal-add-new" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        @using (Html.BeginForm("Details", "ProductTag")) {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("TagId")
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Thêm thẻ</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Tên thẻ</label>
+                            <div class="col-md-10">
+                                @Html.TextBox("TagName", "", new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                        <i class="fa fa-reply"></i> Close
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa fa-share"></i> Lưu
+                    </button>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+@section styles{
+
+}
+@section scripts{
+    <script src="~/Areas/Admin/Assets/js/jquery.dataTables.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/jquery.dataTables.bootstrap.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/dataTables.buttons.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.flash.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.html5.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.print.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/buttons.colVis.min.js"></script>
+    <script src="~/Areas/Admin/Assets/js/dataTables.select.min.js"></script>
+
+    <script>
+        function AddNewTag() {
+            $('#TagId').val('');
+            $('#TagName').val('');
+            $('#modal-add-new').modal('show');
+        }
+
+        function EditTag(id) {
+            $('#TagId').val(id);
+            $('#TagName').val($('#td-tag-name-'+id).text().trim());
+            $('#modal-add-new').modal('show');
+        }
+        $(document).ready(function () {
+            var myTable =
+                $('#dynamic-table')
+                    //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
+                    .DataTable({
+                        bAutoWidth: false,
+
+                        "aaSorting": []
+                    });
+        })
+    </script>
+}

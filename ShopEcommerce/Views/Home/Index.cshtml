@@ -1,0 +1,193 @@
+﻿@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Trang chủ";
+    var productCategories = (List<CPSeed.Models.ProductCategory>)ViewBag.ProductCategories;
+    var sliders = (List<CPSeed.Models.Banner>)ViewBag.Sliders;
+
+    var productFeatureds = (List<CPSeed.Models.Product>)ViewBag.ProductFeatureds;
+    var productHoteds = (List<CPSeed.Models.Product>)ViewBag.ProductHoteds;
+    var productNews = (List<CPSeed.Models.Product>)ViewBag.ProductNews;
+    var configSetting = (CPSeed.Models.ConfigSetting)ViewBag.ConfigSetting;
+}
+
+<section class="section-main bg padding-y-sm">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <div class="row row-sm">
+                    <aside class="col-md-3">
+                        <h5 class="text-uppercase"><a href="~/Product/" class="text-dark">TẤT CẢ SẢN PHẨM</a></h5>
+                        <ul class="menu-category">
+                            @foreach (var item in productCategories.Where(x => !x.ParentId.HasValue))
+                            {
+                                if (item.ProductCategories.Count() == 0)
+                                {
+                                    <li> <a href="~/Product/Category/@item.Id" class="text-dark">@item.Name</a></li>
+                                }
+                                else
+                                {
+                                    <li class="has-submenu">
+                                        <a href="~/Product/Category/@item.Id" class="text-dark">@item.Name<i class="icon-arrow-right pull-right"></i></a>
+                                        <ul class="submenu">
+                                            @foreach (var itemChild in item.ProductCategories)
+                                            {
+                                                <li> <a href="~/Product/Category/@itemChild.Id" class="text-dark">@itemChild.Name</a></li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            }
+                        </ul>
+
+                    </aside>
+                    <div class="col-md-6">
+                        <div class="owl-init slider-main owl-carousel" data-items="1" data-nav="true" data-dots="false">
+                            @foreach (var item in sliders.Where(x => x.BannerCategory.Name == "Slider"))
+                            {
+                                <div class="item-slide">
+                                    <img src="@item.Image">
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+                    <aside class="col-md-3">
+
+                        <h5 class="title-bg bg-light text-dark text-uppercase"> Sản phẩm hot</h5>
+                        <div style="height:280px;">
+                            @foreach (var item in productHoteds)
+                            {
+                                <div class="card">
+                                    <figure class="itemside">
+                                        <div class="aside">
+                                            <div class="img-wrap img-sm">
+                                                <img src="@item.Thumnail" style="height:100% !important">
+                                            </div>
+                                        </div>
+                                        <figcaption class="p-3 info-wrap" style="overflow: hidden;">
+                                            <h6 class="title text-truncate">
+                                                <a href="~/Product/Details/@item.Id" class="text-dark">@item.Name</a>
+                                            </h6>
+                                            <div class="price-wrap">
+                                                <span class="price-new b text-secondary">@item.Price.ToString("N0") đ</span>
+                                                @*<del class="price-old text-muted">$1980</del>*@
+                                            </div>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                            }
+                        </div>
+
+                    </aside>
+                </div>
+            </div>
+        </div>
+
+        <figure class="mt-3 banner p-3 bg-white">
+            <div class="text-lg text-center dark">Xin chào quý khách đã ghé thăm shop</div>
+        </figure>
+
+    </div>
+</section>
+
+<section class="section-content padding-y-sm bg">
+    <div class="container">
+        <header class="section-heading heading-line">
+            <h4 class="title-section bg uppercase">Sản phẩm mới</h4>
+        </header>
+        <div class="owl-carousel owl-init slide-items" data-items="5" data-margin="20" data-dots="false" data-nav="true">
+            @foreach (var item in productNews.OrderBy(x => x.OrderNo))
+            {
+                <div class="item-slide">
+                    <figure class="card card-product">
+                        <div class="img-wrap">
+                            <span class="badge-new">MỚI</span>
+                            <img src="@item.Thumnail">
+                            <a class="btn-overlay" href="javascript:void(0)" onclick="QuickView('@item.Id')"><i class="fa fa-search-plus"></i> Xem nhanh</a>
+                        </div>
+                        <figcaption class="info-wrap">
+                            <h6 class="title text-truncate"><a href="~/Product/Details/@item.Id" class="text-dark">@item.Name</a></h6>
+                            <div class="action-wrap">
+                                <a href="~/Cart/AddToCart/@item.Id" class="btn btn-outline-success btn-sm float-right">
+                                    <i class="fa fa-cart-plus"></i> Mua
+                                </a>
+                                <div class="price-wrap h6 text-secondary">
+                                    <span class="price-new">@item.Price.ToString("N0") đ</span>
+                                </div>
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+
+
+<section class="section-request bg padding-y-sm">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-6">
+                <article class="box">
+                    <figure class="itemside">
+                        <div class="aside align-self-center">
+                            <span class="icon-wrap icon-md round bg-warning">
+                                <i class="fa fa-lightbulb white"></i>
+                            </span>
+                        </div>
+                        <figcaption class="text-wrap">
+                            <h5 class="title">Chính sách bán hàng</h5>
+                            <p class="text-muted">
+                                @configSetting.Policy
+                            </p>
+                        </figcaption>
+                    </figure>
+                </article>
+            </div>
+            <div class="col-md-6">
+                <article class="box">
+                    <figure class="itemside">
+                        <div class="aside align-self-center">
+                            <span class="icon-wrap icon-md round bg-success">
+                                <i class="fa fa-lock white"></i>
+                            </span>
+                        </div>
+                        <figcaption class="text-wrap">
+                            <h5 class="title">Dịch vụ</h5>
+                            <p class="text-muted">
+                                @configSetting.Service
+                            </p>
+                        </figcaption>
+                    </figure>
+                </article>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+@{ Html.RenderPartial("_LinksPartialView", (List<CPSeed.Models.Vendor>)ViewBag.Vendors);}
+@* Scipt dư cho phần yêu cầu sản phẩm *@
+@*@section scripts{
+    <link href="~/Assets/plugins/fancybox/fancybox.min.css" type="text/css" rel="stylesheet">
+    <script src="~/Assets/plugins/slickslider/slick.min.js"></script>
+    <script>
+        function SaveRequestProduct() {
+            var ProductName = $('#RequestProductName').val();
+            var Notification = $('input[name="RequestNotify"]:checked').val();
+            var Email = $('#RequestEmail').val();
+            if (ProductName == '') {
+                alert('Bạn chưa nhập tên sản phẩm yêu cầu');
+            } else {
+                $.post('/Home/SaveRequestProduct', { ProductName: ProductName, Notification: Notification, Email: Email }, function (res) {
+                    $('#RequestProductName').val('');
+                    $('input[name="RequestNotify"]:checked').val('');
+                    alert(res);
+                });
+            }
+        }
+
+    </script>
+}*@

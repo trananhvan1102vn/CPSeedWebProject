@@ -1,0 +1,156 @@
+﻿@model CPSeed.Models.ProductionOrder
+@{
+    ViewBag.Title = "Giỏ hàng của bạn";
+    var currentUser = (CPSeed.Models.ApplicationUser)ViewBag.CurrentUser;
+}
+
+<section class="section-content padding-y-sm">
+    <div class="container">
+        @if (Model.CartItems.Count() == 0) {
+            <article class="padding-y-sm">
+                <figure class="itemside">
+                    <div class="aside align-self-center">
+                        <span class="icon-wrap icon-md round bg-warning">
+                            <i class="fa fa-exclamation-circle white"></i>
+                        </span>
+                    </div>
+                    <figcaption class="text-wrap">
+                        <h5 class="title">Không có sản phẩm nào trong giỏ hàng của bạn</h5>
+                        <p class="text-muted">
+                            Giỏ hàng của bạn hiện không có sản phẩm nào để tiếp tục đặt hàng, để mua hàng bạn vui lòng nhấp vào <a href="~/Product">sản phẩm</a> muốn mua rồi nhấn nút mua hàng.
+                        </p>
+                    </figcaption>
+                </figure>
+            </article>
+        } else {
+
+            <table class="table table-hover shopping-cart-wrap m-0 table-responsive-sm">
+                <thead class="text-muted">
+                    <tr>
+                        <th class="" scope="col">Sản phẩm</th>
+                        <th class="" scope="col" width="150">Số lượng</th>
+                        <th scope="col" width="150" class="text-right">Đơn giá</th>
+                        <th scope="col" width="170" class="text-right">Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CartItems) {
+                        <tr id="item-cart-@item.ProductId">
+                            <td>
+                                <figure class="media">
+                                    <div class="img-wrap"><img src="@item.Thumail" class="img-thumbnail img-xs"></div>
+                                    <figcaption class="media-body">
+                                        <h6 class="title text-truncate"><a href="~/Product/Details/@item.ProductId" class="text-dark" target="_blank">@item.ProductName</a></h6>
+                                    </figcaption>
+                                </figure>
+                            </td>
+                            <td>
+                                <div class="input-group">
+                                    @Html.TextBox("Quantity", item.Quantity, new { @class = "form-control", type = "number", min = 1, max = 100, autocomplete = "off", @readonly = true })
+                                </div>
+                            </td>
+                            <td class="text-right">
+                                <div class="price-wrap">
+                                    <var class="price">@item.Price.ToString("N0") đ</var>
+                                </div>
+                            </td>
+                            <td class="text-right">
+                                <div class="price-wrap">
+                                    <var class="price text-success" id="cart-item-this-total-@item.ProductId">@item.Total.ToString("N0") đ</var>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr class="bg">
+                        <td colspan="1" class="text-right"><h5 class="title text-truncate">Tổng số lượng</h5></td>
+                        <td><h4 class="title text-truncate text-primary" id="cart-item-qty">@Model.CartItems.Sum(x => x.Quantity).ToString("N0") Sản phẩm</h4></td>
+                        <td class="text-right"><h5 class="title text-truncate">Tổng thành tiền</h5></td>
+                        <td colspan="1" class="text-right"><h4 class="title text-truncate text-success" id="cart-item-total">@Model.CartItems.Sum(x => x.Total).ToString("N0") đ</h4></td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <header class="section-heading heading-line">
+                <h4 class="title-section bg-white uppercase">Thông tin đặt hàng</h4>
+            </header>
+
+            using (Html.BeginForm("Finish", "Cart", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "pl-2 pr-2 form-horizontal", role = "form" })) {
+                <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                        <dl class="dlist-align">
+                            <dt><label for="Name" class="col-form-label">Họ tên (*):</label></dt>
+                            <dd>@Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = true })</dd>
+                        </dl>
+                        <dl class="dlist-align">
+                            <dt><label for="PhoneNumber" class="col-form-label">Điện thoại (*):</label></dt>
+                            <dd>@Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @readonly = true })</dd>
+                        </dl>
+                        <dl class="dlist-align">
+                            <dt><label for="Email" class="col-form-label">Email (*):</label></dt>
+                            <dd>@Html.TextBoxFor(m => m.Email, new { @class = "form-control", @readonly = true })</dd>
+                        </dl>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                        <dl class="dlist-align">
+                            <dt><label for="Note" class="col-form-label">Ghi chú:</label></dt>
+                            <dd>@Html.TextAreaFor(m => m.Note, new { @class = "form-control", rows = 3, @readonly = true })</dd>
+                        </dl>
+                    </div>
+                    <dl class="dlist-align col-12">
+                        <dt><label for="Address" class="col-form-label">Địa chỉ (*):</label></dt>
+                        <dd>@Html.TextAreaFor(m => m.Address, new { @class = "form-control", rows = 3, @readonly = true })</dd>
+                    </dl>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group float-right pt-3">
+                            <button type="submit" name="btnSumit" value="cancel" class="btn btn-outline-secondary">
+                                <i class="fa fa-times"></i> Hủy đơn hàng
+                            </button>
+                            <button type="submit" name="btnSumit" value="finish" class="btn btn-success">
+                                <i class="fa fa-share"></i> Hoàn tất
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        <header class="section-heading heading-line" />
+    </div>
+</section>
+
+@section scripts{
+    <script>
+        function RemoveToCart(productId) {
+            $.post('/Cart/RemoveToCart', { productId: productId }, function (res) {
+                $('#cart-number').text(res.number);
+                $('#cart-item-qty').text(res.qty);
+                $('#cart-item-total').text(res.total);
+                $('#item-cart-' + productId).fadeOut(250);
+                //alert(res);
+            });
+        }
+
+        function EditQuantity(productId, sender) {
+            var quantity = $(sender).val();
+            $.post('/Cart/EditQuantity', { productId: productId, quantity: quantity }, function (res) {
+                $('#cart-number').text(res.number);
+                $('#cart-item-qty').text(res.qty);
+                $('#cart-item-total').text(res.total);
+                $('#cart-item-this-total-' + productId).text(res.thisTotal);
+                //alert(res);
+            });
+        }
+    </script>
+    <style>
+        .dlist-align dt {
+            width: 120px;
+        }
+
+        .dlist-align dd {
+            margin-left: 150px;
+        }
+    </style>
+}

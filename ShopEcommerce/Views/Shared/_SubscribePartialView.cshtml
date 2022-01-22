@@ -1,0 +1,21 @@
+﻿@using Microsoft.AspNet.Identity
+<section class="section-subscribe padding-y-lg">
+    <div class="container">
+        <p class="pb-2 text-center dark">Cung cấp các xu hướng sản phẩm mới nhất và tin tức trong ngành vào hộp thư đến của bạn</p>
+        <div class="row justify-content-md-center">
+            <div class="col-lg-4 col-sm-6">
+                <form class="row-sm" id="frm-SubscribeEmail">
+                    <div class="col-8">
+                        @Html.TextBox("SubscribeEmail", @User.Identity.GetUserName(), new { @class = "form-control", type = "email", placeholder = "Email của bạn" })
+                    </div>
+                    <div class="col-4">
+                        <button type="button" onclick="FuncSubscribeEmail()" class="btn btn-block btn-warning">
+                            <i class="fa fa-envelope"></i> Theo dõi
+                        </button>
+                    </div>
+                </form>
+                <small class="form-text text-black-50">Chúng tôi sẽ không bao giờ chia sẻ địa chỉ email của bạn với bên thứ ba.</small>
+            </div>
+        </div>
+    </div>
+</section>
